@@ -289,3 +289,19 @@ but it didn't refresh the link correctly for me.  I ended up crafting the links 
 
 See the URL options link above; it's not possible, at the moment, to get a
 link that opens a particular R notebook directly in RStudio.
+
+## Upgrade / downgrade number of nodes
+
+Change max number of nodes:
+
+```
+. vars.sh
+gcloud beta container node-pools update user-pool --region=$REGIO
+N --cluster=jhub-cluster --max-nodes=20
+```
+
+Show the change:
+
+```
+gcloud beta container node-pools describe user-pool --region=$REGION --cluster=jhub-cluster
+```
