@@ -4,4 +4,4 @@ mkdir -p $HOME_BIN
 curl -L https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get -o $HELM_INSTALLER
 export HELM_INSTALL_DIR=$HOME_BIN
 bash $HELM_INSTALLER
-echo 'export PATH=$HOME_BIN:$PATH' >> $HOME/.bashrc
+echo "export PATH=$HOME_BIN:\$PATH" >> $HOME/.bashrc
