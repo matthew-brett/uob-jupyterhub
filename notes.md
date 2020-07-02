@@ -1,3 +1,5 @@
+# Setting up the UoB JupyterHub
+
 <https://zero-to-jupyterhub.readthedocs.io/en/latest/>
 
 Then:
@@ -36,12 +38,26 @@ gcloud compute addresses create uobhub-ip --region europe-west2
 gcloud compute addresses describe uobhub-ip --region europe-west2
 ```
 
+## Procedure
+
+### Once only
+
+Install Helm v2 in local filesystem:
+
+```
+. install_helm.sh
+source ~/.bashrc
+```
+
+### Each time you restart the cloud console
+
 Source the `vars.sh` file:
 
 ```
 source vars.sh
 ```
 
+### Kubernetes
 
 Create the main cluster.
 
@@ -54,6 +70,8 @@ gcloud container clusters create \
   --region $REGION \
   $JHUB_CLUSTER
 ```
+
+> Give your account permissions to perform all administrative actions needed.
 
 ```
 kubectl create clusterrolebinding cluster-admin-binding \
@@ -77,23 +95,28 @@ gcloud beta container node-pools create user-pool \
   --cluster $JHUB_CLUSTER
 ```
 
-Now: <https://zero-to-jupyterhub.readthedocs.io/en/latest/setup-jupyterhub/index.html>
+### Helm
+
+Now:
+<https://zero-to-jupyterhub.readthedocs.io/en/latest/setup-jupyterhub/setup-helm.html>.
 
 All commands in web console:
 
-```
-curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
-```
+> Set up a ServiceAccount for use by tiller.
 
 ```
 kubectl --namespace kube-system create serviceaccount tiller
 ```
+
+> Give the ServiceAccount full permissions to manage the cluster.
 
 See caveat in docs about RBAC.  I ignored the caveat.
 
 ```
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
 ```
+
+> Initialize helm and tiller.
 
 ```
 helm init --service-account tiller --history-max 100 --wait
@@ -107,18 +130,26 @@ To prevent this, run `helm init` with the --tiller-tls-verify flag.
 For more information on securing your installation see: https://v2.helm.sh/docs/securing_installation/
 ```
 
+> Ensure that tiller is secure from access inside the cluster:
+
 ```
 kubectl patch deployment tiller-deploy --namespace=kube-system --type=json --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
 ```
 
+### JupyterHub
+
 <https://zero-to-jupyterhub.readthedocs.io/en/latest/setup-jupyterhub/setup-jupyterhub.html>
 
-Make `config.yaml` as in the instructions.  Then:
+Make `config.yaml` as in the instructions.
+
+Add JupyterHub Helm chart repository:
 
 ```
 helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
 helm repo update
 ```
+
+Apply Helm chart.
 
 ```
 helm upgrade --install $RELEASE jupyterhub/jupyterhub \
@@ -149,7 +180,7 @@ to show the external IP address.
 
 ## Set up HTTPS
 
-<>
+<https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/security.html#https>
 
 ```
 proxy:
@@ -197,4 +228,64 @@ singleuser:
 
 Don't forget the tag!
 
+## Logging, login
+
+```
+kubectl logs pod/$(kubectl get pods -o custom-columns=POD:metadata.name | grep autohttps-) traefik -f
+```
+
+```
+kubectl exec --stdin --tty autohttps-77dfc9d56c-8qdtt -- /bin/sh
+```
+
 ## RStudio
+
+Hmmm.
+
+## Authentication
+
+See
+<https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/authentication.html#authenticating-with-oauth2>.
+
+Example, for Github.
+
+```
+auth:
+  type: github
+  github:
+    clientId: "y0urg1thubc1ient1d"
+    clientSecret: "an0ther1ongs3cretstr1ng"
+    callbackUrl: "http://uobhub.org/hub/oauth_callback"
+```
+
+## Images
+
+I started using:
+
+```
+    name: gcr.io/ucb-datahub-2018/workshop-user-image
+    tag: 3cd7a6b
+```
+
+I believe this is none other than the result of `docker build`ing
+`deployments/datahub/images/default` from
+<https://github.com/berkeley-dsep-infra/datahub> `staging` branch, as of
+`258cdbc`.  I had to disable the JupyterLab stuff at the end, as it was
+causing an error.
+
+## Nbgitpuller
+
+Needs to be installed in the Docker container.
+
+There is a [link builder](https://jupyterhub.github.io/nbgitpuller/link.html)
+but it didn't refresh the link correctly for me.  I ended up crafting the links by hand, from [the url options](https://jupyterhub.github.io/nbgitpuller/topic/url-options.html).
+
+* A Jupyter notebook link:
+  <http://uobhub.org/user/matthew-brett/git-pull?repo=https%3A%2F%2Fgithub.com%2Fmatthew-brett%2Fdatasets&urlpath=mosquito_beer/process_mosquito_beer.ipynb>
+* A link opening RStudio:
+  <http://uobhub.org/user/matthew-brett/git-pull?repo=https%3A%2F%2Fgithub.com%2Fmatthew-brett%2Ftitanic-r&urlpath=/rstudio>.
+  Titanic R exercise</a> and open in RStudio. RStudio will open, then
+  use File - Open to open "titanic-r/titanic.Rmd" notebook.
+
+See the URL options link above; it's not possible, at the moment, to get a
+link that opens a particular R notebook directly in RStudio.
