@@ -1,4 +1,4 @@
-https://zero-to-jupyterhub.readthedocs.io/en/latest/
+<https://zero-to-jupyterhub.readthedocs.io/en/latest/>
 
 Then:
 
@@ -22,24 +22,28 @@ I used the web console.  It wouldn't start on Firefox, so I went to Chrome.
 
 See the
 [docs](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)
---- but each *region* has three *zones*.  I've specified 
+--- but each *region* has three *zones*.  I've specified zone b --- see the
+`vars.sh` file.
 
-Source this file:
+
+I believe the standard JupyterHub / Kubernetes setup uses a Service to route
+requests from the proxy.  I made a static IP address, following [this
+tutorial](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip):
+
 
 ```
-# vars.sh
-# Source this file.
-JHUB_CLUSTER=jhub-cluster
-RELEASE=jhub
-NAMESPACE=jhub
-REGION=europe-west2
-ZONE=europe-west2-b
-EMAIL=matthew.brett@gmail.com
+gcloud compute addresses create uobhub-ip --region europe-west2
+gcloud compute addresses describe uobhub-ip --region europe-west2
 ```
+
+Source the `vars.sh` file:
 
 ```
 source vars.sh
 ```
+
+
+Create the main cluster.
 
 ```
 gcloud container clusters create \
@@ -56,6 +60,8 @@ kubectl create clusterrolebinding cluster-admin-binding \
   --clusterrole=cluster-admin \
   --user=$EMAIL
 ```
+
+Optional - create a special user cluster.
 
 ```
 gcloud beta container node-pools create user-pool \
@@ -117,7 +123,7 @@ helm repo update
 ```
 helm upgrade --install $RELEASE jupyterhub/jupyterhub \
   --namespace $NAMESPACE  \
-  --version=0.9.0 \
+  --version=$JHUB_VERSION \
   --values config.yaml
 ```
 
