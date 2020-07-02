@@ -292,7 +292,8 @@ link that opens a particular R notebook directly in RStudio.
 
 ## Upgrade / downgrade number of nodes
 
-Change max number of nodes:
+Change max number of nodes with the [node-pools update
+command](https://cloud.google.com/sdk/gcloud/reference/container/clusters/update):
 
 ```
 . vars.sh
