@@ -167,13 +167,13 @@ kubectl config set-context $(kubectl config current-context) --namespace ${NAMES
 To check what is running, after starting help upgrade above:
 
 ```
-kubectl get pod --namespace jhub
+kubectl get pod --namespace $NAMESPACE
 ```
 
 Once `hub` and `proxy` are running:
 
 ```
-kubectl get service --namespace jhub
+kubectl get service --namespace $NAMESPACE
 ```
 
 to show the external IP address.
@@ -181,6 +181,8 @@ to show the external IP address.
 ## Set up HTTPS
 
 <https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/security.html#https>
+
+Don't forget to reserve the IP (see above).
 
 ```
 proxy:
@@ -203,8 +205,7 @@ helm upgrade $RELEASE jupyterhub/jupyterhub  --version=$JHUB_VERSION --values co
 ## Tear it all down
 
 ```
-RELEASE=jhub
-NAMESPACE=jhub
+. vars.sh
 helm delete $RELEASE --purge
 kubectl delete namespace $NAMESPACE
 ```
@@ -227,6 +228,19 @@ singleuser:
 ```
 
 Don't forget the tag!
+
+I started using:
+
+```
+    name: gcr.io/ucb-datahub-2018/workshop-user-image
+    tag: 3cd7a6b
+```
+
+I believe this is none other than the result of `docker build`ing
+`deployments/datahub/images/default` from
+<https://github.com/berkeley-dsep-infra/datahub> `staging` branch, as of
+`258cdbc`.  I had to disable the JupyterLab stuff at the end, as it was
+causing an error.
 
 ## Logging, login
 
@@ -257,21 +271,6 @@ auth:
     clientSecret: "an0ther1ongs3cretstr1ng"
     callbackUrl: "http://uobhub.org/hub/oauth_callback"
 ```
-
-## Images
-
-I started using:
-
-```
-    name: gcr.io/ucb-datahub-2018/workshop-user-image
-    tag: 3cd7a6b
-```
-
-I believe this is none other than the result of `docker build`ing
-`deployments/datahub/images/default` from
-<https://github.com/berkeley-dsep-infra/datahub> `staging` branch, as of
-`258cdbc`.  I had to disable the JupyterLab stuff at the end, as it was
-causing an error.
 
 ## Nbgitpuller
 
