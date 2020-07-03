@@ -140,7 +140,8 @@ kubectl patch deployment tiller-deploy --namespace=kube-system --type=json --pat
 
 <https://zero-to-jupyterhub.readthedocs.io/en/latest/setup-jupyterhub/setup-jupyterhub.html>
 
-Make `config.yaml` as in the instructions.
+Make `config.yaml` as in the instructions.  See `config.yaml.cleaned` for a
+sanitized version.
 
 Add JupyterHub Helm chart repository:
 
@@ -195,7 +196,52 @@ proxy:
     loadBalancerIP: 35.189.82.198
 ```
 
-Upgrade:
+This proved tricky.  See [this
+post](https://discourse.jupyter.org/t/trouble-getting-https-letsencrypt-working-with-0-9-0-beta-4/3583/5?u=matthew.brett)
+for details, following the [kind suggestions by Erik
+Sundell](https://discourse.jupyter.org/t/trouble-getting-https-letsencrypt-working-with-0-9-0-beta-4/3583/4?u=matthew.brett).
+
+I found and deleted the secret:
+
+```
+$ kubectl get secrets
+$ kubectl delete secret proxy-public-tls-acme
+$ kubectl get secrets
+```
+
+I found the latest chart from <https://jupyterhub.github.io/helm-chart/#development-releases-jupyterhub>, which was `0.9.0-n116.h1c766a1`.
+
+I then purged and restarted using this chart:
+
+```
+$ helm delete $RELEASE --purge
+$ helm upgrade --install $RELEASE jupyterhub/jupyterhub --namespace $NAMESPACE --version=$JHUB_VERSION --values config.yaml
+```
+
+Then I checked the logs, but got the same error:
+
+```
+$ kubectl logs pod/$(kubectl get pods -o custom-columns=POD:metadata.name | grep autohttps-) traefik -f
+```
+
+giving:
+
+```
+time="2020-07-03T17:46:42Z" level=error msg="Unable to obtain ACME certificate for domains \"testing.uobhub.org\" : unable to generate a certificate for th
+e domains [testing.uobhub.org]: error: one or more domains had a problem:\n[testing.uobhub.org] acme: error: 400 :: urn:ietf:params:acme:error:connection :
+: Fetching http://testing.uobhub.org/.well-known/acme-challenge/QfUNDgaKU_3dw_WvkDiPaAADbFAOciVMXCMG99nZCiI: Timeout during connect (likely firewall proble
+m), url: \n" providerName=default.acme
+```
+
+Finally, I tried deleting the `autohttps` pod:
+
+```
+$ kubectl delete pods $(kubectl get pods -o custom-columns=POD:metadata.name | grep autohttps-)
+```
+
+And - hey presto - it worked!
+
+## Upgrade to new helm chart
 
 ```
 . vars.sh
@@ -289,6 +335,10 @@ but it didn't refresh the link correctly for me.  I ended up crafting the links 
 See the URL options link above; it's not possible, at the moment, to get a
 link that opens a particular R notebook directly in RStudio.
 
+## Helm charts
+
+[JupyterHub Helm chart listing](https://jupyterhub.github.io/helm-chart/#development-releases-jupyterhub).
+
 ## Upgrade / downgrade number of nodes
 
 Change max number of nodes with the [node-pools update
@@ -304,4 +354,19 @@ Show the change:
 
 ```
 gcloud beta container node-pools describe user-pool --region=$REGION --cluster=jhub-cluster
+```
+
+## Contexts
+
+If futzing around between a couple of clusters, you may have to change
+"contexts" - see [this gh
+issue](https://github.com/kubernetes/kubernetes/issues/56747).
+
+```
+$ kubectl config current-context
+error: current-context is not set
+$  kubectl config get-contexts
+CURRENT   NAME                                           CLUSTER                                        AUTHINFO                                       NAMESPACE
+          gke_uob-jupyterhub_europe-west2_jhub-cluster   gke_uob-jupyterhub_europe-west2_jhub-cluster   gke_uob-jupyterhub_europe-west2_jhub-cluster   jhub
+$ kubectl config use-context gke_uob-jupyterhub_europe-west2_jhub-cluster
 ```
