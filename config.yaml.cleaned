@@ -1,0 +1,27 @@
+proxy:
+  secretToken: "my-secret-token"
+  service:
+    loadBalancerIP: 35.189.82.198
+  https:
+    enabled: true
+    hosts:
+      - uobhub.org
+    letsencrypt:
+      contactEmail: matthew.brett@gmail.com
+
+singleuser:
+  image:
+    # Get the latest image tag at:
+    # https://hub.docker.com/r/jupyter/datascience-notebook/tags/
+    # Inspect the Dockerfile at:
+    # https://github.com/jupyter/docker-stacks/tree/master/datascience-notebook/Dockerfile
+    name: gcr.io/ucb-datahub-2018/workshop-user-image
+    tag: 3cd7a6b
+
+auth:
+  type: github
+  github:
+    clientId: "github-client-token"
+    clientSecret: "github-client-secret"
+    callbackUrl: "http://uobhub.org/hub/oauth_callback"
+
