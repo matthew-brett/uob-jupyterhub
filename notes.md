@@ -248,6 +248,31 @@ And - hey presto - it worked!
 helm upgrade $RELEASE jupyterhub/jupyterhub  --version=$JHUB_VERSION --values config.yaml
 ```
 
+## Securing
+
+<https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/security.html>
+
+> ... mitigate [root access to pods] by limiting public access to the Tiller API.
+
+This is covered by the command below - already in the recipe above:
+
+```
+kubectl --namespace=kube-system patch deployment tiller-deploy --type=json --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
+```
+
+The Dashboard can show information about the cluster that should not be public.  Delete the dashboard with:
+
+```
+kubectl --namespace=kube-system delete deployment kubernetes-dashboard
+```
+
+On my system, this gave a "NotFound" error, and the [following
+command](https://stackoverflow.com/a/49427146) gave no output.
+
+```
+kubectl get secret,sa,role,rolebinding,services,deployments,pods --all-namespaces | grep dashboard
+```
+
 ## Tear it all down
 
 ```
@@ -317,6 +342,14 @@ auth:
     clientSecret: "an0ther1ongs3cretstr1ng"
     callbackUrl: "http://uobhub.org/hub/oauth_callback"
 ```
+
+### Globus authentication
+
+* [JH, Kubernetes auth for Globus](https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/authentication.html#globus)
+* [OAthenticator](https://github.com/jupyterhub/oauthenticator)
+* [Globus procedure](https://oauthenticator.readthedocs.io/en/latest/getting-started.html#globus-setup)
+
+Make an app at <https://developers.globus.org>, and follow instructions on first link above.
 
 ## Nbgitpuller
 
