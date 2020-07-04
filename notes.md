@@ -362,8 +362,10 @@ but it didn't refresh the link correctly for me.  I ended up crafting the links 
   <http://uobhub.org/user/matthew-brett/git-pull?repo=https%3A%2F%2Fgithub.com%2Fmatthew-brett%2Fdatasets&urlpath=mosquito_beer/process_mosquito_beer.ipynb>
 * A link opening RStudio:
   <http://uobhub.org/user/matthew-brett/git-pull?repo=https%3A%2F%2Fgithub.com%2Fmatthew-brett%2Ftitanic-r&urlpath=/rstudio>.
-  Titanic R exercise</a> and open in RStudio. RStudio will open, then
-  use File - Open to open "titanic-r/titanic.Rmd" notebook.
+  This fetches the [Titanic R exercise from
+  Github](https://github.com/matthew-brett/titanic-r/blob/master/titanic.Rmd)
+  and opens RStudio. In RStudio, use File - Open to open the
+  `titanic-r/titanic.Rmd` notebook.
 
 See the URL options link above; it's not possible, at the moment, to get a
 link that opens a particular R notebook directly in RStudio.
