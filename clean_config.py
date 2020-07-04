@@ -10,15 +10,18 @@ from string import hexdigits
 from ruamel.yaml import YAML
 
 lowhex = [c for c in hexdigits if not c.isupper()]
+lowhex_plus = lowhex + list('-')
 
 
 def is_hex(s, minlen=8):
     if len(s) < minlen:
         return False
-    return set(s).issubset(hexdigits)
+    return set(s).issubset(lowhex_plus)
 
 
 def rehex(s):
+    if '-' in s:
+        return '-'.join(rehex(p) for p in s.split('-'))
     return ''.join(choices(lowhex, k=len(s)))
 
 
