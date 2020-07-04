@@ -1,7 +1,7 @@
 # NB secret values replaced with random equivalents.
 
 proxy:
-  secretToken: 416b9d90325a1412e0b05501bf081f5061aaaeebbe859323a8544523c27952c7
+  secretToken: 9a638986cb8df288aca22281cb5168ea4c8ffd9934d5e46b76e6c4b4b565577f
   service:
     loadBalancerIP: 35.189.82.198
   https:
@@ -10,6 +10,7 @@ proxy:
     - uobhub.org
     letsencrypt:
       contactEmail: yourname@somewhere.org
+
 singleuser:
   image:
     # Get the latest image tag at:
@@ -18,9 +19,11 @@ singleuser:
     # https://github.com/jupyter/docker-stacks/tree/master/datascience-notebook/Dockerfile
     name: gcr.io/ucb-datahub-2018/workshop-user-image
     tag: 3cd7a6b
+
 auth:
-  type: github
-  github:
-    clientId: a3c35c7b0f7bd23f43a2
-    clientSecret: 7cca4dc5c0b95434934c6986ccce68916b608817
-    callbackUrl: http://uobhub.org/hub/oauth_callback
+  type: globus
+  globus:
+    clientId: 1134cfc4-26cd-0d45-4cc3-8bd4618cc55a
+    clientSecret: f1b51e7fcec61f27c54c6dbb25972637b468dc8263ee
+    callbackUrl: https://uobhub.org/hub/oauth_callback
+    identityProvider: bham.ac.uk
