@@ -164,7 +164,7 @@ To prevent this, run `helm init` with the --tiller-tls-verify flag.
 For more information on securing your installation see: https://v2.helm.sh/docs/securing_installation/
 ```
 
-> Ensure that tiller is secure from access inside the cluster:
+> Ensure that tiller is [secure from access inside the cluster](https://engineering.bitnami.com/articles/helm-security.html):
 
 ```
 kubectl patch deployment tiller-deploy --namespace=kube-system --type=json --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
@@ -275,6 +275,9 @@ $ kubectl delete pods $(kubectl get pods -o custom-columns=POD:metadata.name | g
 
 And - hey presto - it worked!
 
+Check https access with a [Qualsys SSL labs URL in your
+browser](https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/security.html#confirm-that-your-domain-is-running-https).
+
 ## Upgrade to new helm chart
 
 ```
@@ -306,6 +309,9 @@ command](https://stackoverflow.com/a/49427146) gave no output.
 ```
 kubectl get secret,sa,role,rolebinding,services,deployments,pods --all-namespaces | grep dashboard
 ```
+
+See also [JupyterHub
+security](https://jupyterhub.readthedocs.io/en/stable/reference/websecurity.html).
 
 ## Tear it all down
 
