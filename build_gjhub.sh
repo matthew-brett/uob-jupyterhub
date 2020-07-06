@@ -2,6 +2,14 @@
 #
 # vars.sh
 # config.yaml
+source vars.sh
+
+# Set project ID
+gcloud config set project $PROJECT_ID
+
+# Set default region and zone.
+gcloud compute project-info add-metadata \
+    --metadata google-compute-default-region=$REGION,google-compute-default-zone=$ZONE
 
 # Create the main cluster.
 gcloud container clusters create \

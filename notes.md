@@ -30,15 +30,18 @@ I believe the standard JupyterHub / Kubernetes setup uses a Service to route
 requests from the proxy.  I made a static IP address, following [this
 tutorial](https://cloud.google.com/kubernetes-engine/docs/tutorials/configuring-domain-name-static-ip):
 
-
 ```
 gcloud compute addresses create uobhub-ip --region europe-west2
 gcloud compute addresses describe uobhub-ip --region europe-west2
 ```
 
-Note the IP address in `vars.sh`.
+Note the IP address in `vars.sh` and `loadBalancerIP` field of `config.sh`.
 
-Set up DNS to point to this IP.
+Set up DNS to point to this IP.  Wait for it to propagate, at least to the console you are using, e.g.
+
+```
+nslookup uobhub.org
+```
 
 Install Helm v2 in local filesystem:
 
@@ -49,9 +52,12 @@ source ~/.bashrc
 
 ## The whole thing
 
+I used a new project.  You'll need an IP for the project, as above.
+
 * Edit `vars.sh` to record IP, Google project name and other edits to taste.
 * Edit `config.yaml` to record domain name etc.
 * Run `. build_gjhub.sh` (Build Google JupyterHub).
+
 
 ## Procedure in steps
 
