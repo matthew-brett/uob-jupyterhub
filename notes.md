@@ -50,14 +50,35 @@ Install Helm v2 in local filesystem:
 source ~/.bashrc
 ```
 
+You might want to set up authentication, as below.  I used Globus.
+
 ## The whole thing
 
-I used a new project.  You'll need an IP for the project, as above.
+I used a new project.  You'll need an IP and domain name for cluster, as above,
+and maybe authentication, see below.
 
 * Edit `vars.sh` to record IP, Google project name and other edits to taste.
 * Edit `config.yaml` to record domain name etc.
-* Run `. build_gjhub.sh` (Build Google JupyterHub).
+* Run:
 
+```
+# Initialize cluster, and Helm
+. init_gjhub.sh
+```
+
+Then:
+
+```
+# Build cluster by applying Helm chart
+. build_gjhub.sh
+```
+
+Test https.   You might need to:
+
+```
+# Reset https on cluster
+. reset_gjhub.sh
+```
 
 ## Procedure in steps
 
@@ -328,6 +349,8 @@ causing an error.
 
 ## Logging, login
 
+Finding the `autohttps` pod, getting logs:
+
 ```
 kubectl logs pod/$(kubectl get pods -o custom-columns=POD:metadata.name | grep autohttps-) traefik -f
 ```
@@ -362,7 +385,24 @@ auth:
 * [OAthenticator](https://github.com/jupyterhub/oauthenticator)
 * [Globus procedure](https://oauthenticator.readthedocs.io/en/latest/getting-started.html#globus-setup)
 
-Make an app at <https://developers.globus.org>, and follow instructions on first link above.
+Make an app at <https://developers.globus.org>, and follow instructions at [OAuthenticator Globus setup](https://oauthenticator.readthedocs.io/en/latest/getting-started.html#globus-setup).  I used:
+
+As instructed, I enabled the scropes "openid profile
+urn:globus:auth:scope:transfer.api.globus.org:all".  I set the callback URL as
+below, and checked "Require that the user has linked an identity ...", and
+"Pre-select a specific identity", both set to my university. I then copied the client id given (see below), and made a new client secret (see below).
+
+Example from [JH, Kubernetes auth for Globus](https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/authentication.html#globus):
+
+```
+auth:
+  type: globus
+  globus:
+    clientId: "y0urc1logonc1ient1d"
+    clientSecret: "an0ther1ongs3cretstr1ng"
+    callbackUrl: "https://<your_jupyterhub_host>/hub/oauth_callback"
+    identityProvider: "youruniversity.edu"
+```
 
 ## Nbgitpuller
 
