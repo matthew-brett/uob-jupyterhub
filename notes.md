@@ -22,11 +22,9 @@ I used the web console.  It wouldn't start on Firefox, so I went to Chrome.
 `europe-west2` appears to be the right *region* for the UK:
 <https://cloud.google.com/compute/docs/regions-zones/#available>.
 
-See the
+Regions contain *zones*.  See the
 [docs](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)
---- but each *region* has three *zones*.  I've specified zone b --- see the
-`vars.sh` file.
-
+I've specified zone b --- see the `vars.sh` file.
 
 I believe the standard JupyterHub / Kubernetes setup uses a Service to route
 requests from the proxy.  I made a static IP address, following [this
@@ -38,9 +36,9 @@ gcloud compute addresses create uobhub-ip --region europe-west2
 gcloud compute addresses describe uobhub-ip --region europe-west2
 ```
 
-## Procedure
+Note the IP address in `vars.sh`.
 
-### Once only
+Set up DNS to point to this IP.
 
 Install Helm v2 in local filesystem:
 
@@ -48,6 +46,14 @@ Install Helm v2 in local filesystem:
 . install_helm.sh
 source ~/.bashrc
 ```
+
+## The whole thing
+
+* Edit `vars.sh` to record IP, Google project name and other edits to taste.
+* Edit `config.yaml` to record domain name etc.
+* Run `. build_gjhub.sh` (Build Google JupyterHub).
+
+## Procedure in steps
 
 ### Each time you restart the cloud console
 
@@ -110,7 +116,8 @@ kubectl --namespace kube-system create serviceaccount tiller
 
 > Give the ServiceAccount full permissions to manage the cluster.
 
-See caveat in docs about RBAC.  I ignored the caveat.
+See caveat in docs about RBAC.  The Google Kubernetes setup does use RBAC, so
+the caveat did not apply to me.
 
 ```
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
@@ -204,9 +211,9 @@ Sundell](https://discourse.jupyter.org/t/trouble-getting-https-letsencrypt-worki
 I found and deleted the secret:
 
 ```
-$ kubectl get secrets
-$ kubectl delete secret proxy-public-tls-acme
-$ kubectl get secrets
+kubectl get secrets
+kubectl delete secret proxy-public-tls-acme
+kubectl get secrets
 ```
 
 I found the latest chart from <https://jupyterhub.github.io/helm-chart/#development-releases-jupyterhub>, which was `0.9.0-n116.h1c766a1`.
