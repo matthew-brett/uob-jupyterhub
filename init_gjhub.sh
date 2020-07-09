@@ -54,4 +54,4 @@ helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
 helm repo update
 
 echo Next run
-echo source build_ghub.sh
+echo source build_gjhub.sh
