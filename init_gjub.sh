@@ -3,16 +3,9 @@
 # vars.sh
 source vars.sh
 
-# Set project ID
-gcloud config set project $PROJECT_ID
-
-# Set default region and zone.
-gcloud compute project-info add-metadata \
-    --metadata google-compute-default-region=$REGION,google-compute-default-zone=$ZONE
-
 # Create the main cluster.
 gcloud container clusters create \
-  --machine-type n1-standard-2 \
+  --machine-type $DEFAULT_MACHINE \
   --num-nodes 2 \
   --cluster-version latest \
   --node-locations $ZONE \
@@ -26,11 +19,11 @@ kubectl create clusterrolebinding cluster-admin-binding \
 
 # Optional - create a special user cluster.
 gcloud beta container node-pools create user-pool \
-  --machine-type n1-standard-2 \
+  --machine-type $USER_MACHINE \
   --num-nodes 0 \
   --enable-autoscaling \
   --min-nodes 0 \
-  --max-nodes 3 \
+  --max-nodes $MAX_NODES \
   --node-labels hub.jupyter.org/node-purpose=user \
   --node-taints hub.jupyter.org_dedicated=user:NoSchedule \
   --node-locations $ZONE \
