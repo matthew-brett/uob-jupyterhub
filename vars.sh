@@ -11,3 +11,8 @@ ZONE=europe-west2-b
 EMAIL=matthew.brett@gmail.com
 UOBHUB_IP=35.189.82.198
 RESOURCE_DATASET=uob_jupyterhub_billing
+
+# Set gcloud contexts
+gcloud config set project $PROJECT_ID
+gcloud compute project-info add-metadata \
+    --metadata google-compute-default-region=$REGION,google-compute-default-zone=$ZONE
