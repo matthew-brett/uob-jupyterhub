@@ -3,9 +3,8 @@
 . vars.sh
 # Set project ID, region, zone (just in case)
 gcloud config set project $PROJECT_ID
-gcloud compute project-info add-metadata \
-    --metadata google-compute-default-region=$REGION,google-compute-default-zone=$ZONE
-# Chceck for helm v2
+# Reset cluster context, just in case
+kubectl config use-context gke_${PROJECT_ID}_${REGION}_${JHUB_CLUSTER}
 HELM_VER=$(helm version --client --template '{{ .Client.SemVer }}')
 if [ "${HELM_VER:0:3}" != "v2." ]; then
     echo run install_helm.sh for helm 2
