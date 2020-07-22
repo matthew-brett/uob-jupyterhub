@@ -1,7 +1,9 @@
 # Master script to initialize cluster according to specs in:
 #
-# vars.sh
-source vars.sh
+# Depends on:
+#   vars.sh
+#   config.yaml
+source set_config.sh
 
 # Create the main cluster.
 gcloud container clusters create \

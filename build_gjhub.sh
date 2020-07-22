@@ -6,7 +6,7 @@
 # Depends on:
 # vars.sh
 # config.yaml
-source vars.sh
+source set_config.sh
 
 # Apply Helm chart.
 helm upgrade --install $RELEASE jupyterhub/jupyterhub \
