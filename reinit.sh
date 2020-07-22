@@ -1,11 +1,10 @@
 # Source this file
 # Source vars
 . vars.sh
-# Set project ID (just in case)
+# Set project ID, region, zone (just in case)
 gcloud config set project $PROJECT_ID
 # Reset cluster context, just in case
 kubectl config use-context gke_${PROJECT_ID}_${REGION}_${JHUB_CLUSTER}
-# Check for helm v2
 HELM_VER=$(helm version --client --template '{{ .Client.SemVer }}')
 if [ "${HELM_VER:0:3}" != "v2." ]; then
     echo run install_helm.sh for helm 2
