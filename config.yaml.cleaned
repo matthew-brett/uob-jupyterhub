@@ -1,13 +1,15 @@
 # NB secret values replaced with random equivalents.
+# Please check.
 
+# Testing / demo config
 proxy:
-  secretToken: 9a638986cb8df288aca22281cb5168ea4c8ffd9934d5e46b76e6c4b4b565577f
+  secretToken: a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f56789
   service:
-    loadBalancerIP: 35.189.82.198
+    loadBalancerIP: 34.105.129.229
   https:
     enabled: true
     hosts:
-    - uobhub.org
+    - hub.dynevor.org
     letsencrypt:
       contactEmail: yourname@somewhere.org
 
@@ -19,11 +21,24 @@ singleuser:
     # https://github.com/jupyter/docker-stacks/tree/master/datascience-notebook/Dockerfile
     name: gcr.io/ucb-datahub-2018/workshop-user-image
     tag: 3cd7a6b
+  cpu:
+    limit: 4
+    guarantee: 0.05
+  memory:
+    limit: 2G
+    guarantee: 512M
 
 auth:
-  type: globus
-  globus:
-    clientId: 1134cfc4-26cd-0d45-4cc3-8bd4618cc55a
-    clientSecret: f1b51e7fcec61f27c54c6dbb25972637b468dc8263ee
-    callbackUrl: https://uobhub.org/hub/oauth_callback
-    identityProvider: bham.ac.uk
+  type: dummy
+  dummy:
+    password: your_secret_password
+
+# https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/optimization.html
+scheduling:
+  userScheduler:
+    enabled: true
+  podPriority:
+    enabled: true
+  userPlaceholder:
+    enabled: true
+    replicas: 2

@@ -4,12 +4,12 @@
 Do a manual check after running this script.
 """
 
-from random import choices
-from string import hexdigits
+from itertools import cycle
 
+# pip install ruamel.yaml
 from ruamel.yaml import YAML
 
-lowhex = [c for c in hexdigits if not c.isupper()]
+lowhex = list('a0b1c2d3e4f56789')
 lowhex_plus = lowhex + list('-')
 
 
@@ -22,7 +22,7 @@ def is_hex(s, minlen=8):
 def rehex(s):
     if '-' in s:
         return '-'.join(rehex(p) for p in s.split('-'))
-    return ''.join(choices(lowhex, k=len(s)))
+    return ''.join(f for r, f in zip(s, cycle(lowhex)))
 
 
 def is_secret(key, val):
@@ -40,8 +40,10 @@ def clean_d(d):
             continue
         elif isinstance(v, str) and is_secret(k, v):
             v = rehex(v)
-        elif k == 'contactEmail':
+        elif 'email' in k.lower():
             v = 'yourname@somewhere.org'
+        elif 'password' in k.lower():
+            v = 'your_secret_password'
         d[k] = v
 
 

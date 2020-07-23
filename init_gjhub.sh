@@ -1,8 +1,9 @@
 # Master script to initialize cluster according to specs in:
 #
+# https://zero-to-jupyterhub.readthedocs.io/en/latest/create-k8s-cluster.html
+#
 # Depends on:
-#   vars.sh
-#   config.yaml
+#   vars.sh (via config.sh)
 source set_config.sh
 
 # Create the main cluster.
@@ -38,15 +39,12 @@ kubectl --namespace kube-system create serviceaccount tiller
 # Give the ServiceAccount full permissions to manage the cluster.
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
 
-# Initialize helm and tiller.
-helm init --service-account tiller --history-max 100 --wait
-
 # Ensure that tiller is secure from access inside the cluster:
-kubectl patch deployment tiller-deploy --namespace=kube-system --type=json --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
+kubectl patch deployment tiller-deploy \
+    --namespace=kube-system --type=json \
+    --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
 
-# Add JupyterHub Helm chart repository:
-helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
-helm repo update
+. reinit.sh
 
 echo Next run
 echo source build_gjhub.sh

@@ -1,3 +1,4 @@
+#!/bin/sh
 # Teardown everything
 # Depends on:
 #   vars.sh

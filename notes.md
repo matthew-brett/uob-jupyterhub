@@ -17,7 +17,10 @@ I created a project `uob-jupyterhub`.
 I enabled the Kubernetes API via
 <https://console.cloud.google.com/apis/library/container.googleapis.com>.
 
-I used the web console.  It wouldn't start on Firefox, so I went to Chrome.
+I initially used the web shell via the [web
+console](https://console.cloud.google.com).  The web shell wouldn't start on
+Firefox, so I went to Chrome.  Later I installed the [Google Cloud
+SDK](https://cloud.google.com/sdk) locally, as I got bored of being automatically disconnected from the web shell.
 
 `europe-west2` appears to be the right *region* for the UK:
 <https://cloud.google.com/compute/docs/regions-zones/#available>.
@@ -25,6 +28,8 @@ I used the web console.  It wouldn't start on Firefox, so I went to Chrome.
 Regions contain *zones*.  See the
 [docs](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)
 I've specified zone b --- see the `vars.sh` file.
+
+## Static IP addresses
 
 I believe the standard JupyterHub / Kubernetes setup uses a Service to route
 requests from the proxy.  I made a static IP address, following [this
@@ -35,22 +40,63 @@ gcloud compute addresses create uobhub-ip --region europe-west2
 gcloud compute addresses describe uobhub-ip --region europe-west2
 ```
 
-Note the IP address in `vars.sh` and `loadBalancerIP` field of `config.sh`.
+Note the IP address from above in the `vars.sh` file and the `loadBalancerIP`
+field of `config.sh`.
 
-Set up DNS to point to this IP.  Wait for it to propagate, at least to the console you are using, e.g.
+Set up DNS to point to this IP.  Wait for it to propagate, at least to the
+console you are using, e.g.
 
 ```
 nslookup uobhub.org
 ```
 
-Install Helm v2 in local filesystem:
+Set the host name in your `config.yaml`.
+
+## Billing data
+
+You'll need this!  Honestly.  The money runs out quickly if you're not keeping
+track of where it's going.
+
+I set up a billing table to export to, via the Google Billing Export panel,
+called `uob_jupyterhub_billing`.
+
+## Scaling
+
+Be careful when scaling.  I had a demo crash catastrophically when more than
+32 or so people tried to log in - see [this discourse thread for some
+excellent help and
+discussion](https://discourse.jupyter.org/t/scheduler-insufficient-memory-waiting-errors-any-suggestions/5314).
+If you want to scale to more than a few users, you will need to:
+
+* Specify minimum memory and CPU requirements carefully.  See [this section of
+  the
+  docs](https://zero-to-jupyterhub.readthedocs.io/en/latest/customizing/user-resources.html#set-user-memory-and-cpu-guarantees-limits).
+  As those docs point out, by default each user is guaranteed 1G of RAM, so
+  each new user will add 1G of required RAM.  This in turn means that fewer
+  users will fit onto one node (VM), and you'll need more VMs, and therefore
+  more money, and more implied CPUs (see below).
+* You may need to increase your CPU quotas on Google Cloud to allow many users
+  - try [this
+  link](https://console.cloud.google.com/iam-admin/quotas?pageState=(%22allQuotasTable%22:(%22f%22:%22%255B%257B_22k_22_3A_227%2520Day%2520Peak%2520Usage_22_2C_22t_22_3A1_2C_22v_22_3A_22%257B_5C_22v_5C_22_3A_5C_220_5C_22_2C_5C_22o_5C_22_3A_5C_22%253E_5C_22%257D_22_2C_22i_22_3A_22seven-day-peak-usage_22%257D_2C%257B_22k_22_3A_22_22_2C_22t_22_3A10_2C_22v_22_3A_22_5C_22CPUs_5C_22_22%257D%255D%22,%22s%22:%5B(%22i%22:%22seven-day-peak-usage%22,%22s%22:%221%22),(%22i%22:%22service%22,%22s%22:%220%22)%5D)))
+  to ask for modification of your quota.
+
+## Local Helm
+
+Install Helm v2 in `$HOME/usr/local/bin` filesystem:
 
 ```
 . install_helm.sh
 source ~/.bashrc
 ```
 
+## Authentication
+
 You might want to set up authentication, as below.  I used Globus.
+
+## Examples
+
+There are various examples of configuration in
+<https://github.com/berkeley-dsep-infra/datahub/tree/staging/deployments>.
 
 ## The whole thing
 
@@ -63,22 +109,25 @@ and maybe authentication, see below.
 
 ```
 # Initialize cluster, and Helm
-. init_gjhub.sh
+source init_gjhub.sh
 ```
 
 Then:
 
 ```
-# Build cluster by applying Helm chart
-. build_gjhub.sh
+# Configure cluster by applying Helm chart
+source build_gjhub.sh
 ```
 
 Test https.   You might need to:
 
 ```
 # Reset https on cluster
-. reset_gjhub.sh
+source reset_autohttps.sh
 ```
+
+My `config.yaml.cleaned` and `vars.sh` are for a fairly low-spec, but scalable
+cluster.
 
 ## Procedure in steps
 

@@ -9,20 +9,11 @@
 source set_config.sh
 
 # Apply Helm chart.
-helm upgrade --install $RELEASE jupyterhub/jupyterhub \
-  --namespace $NAMESPACE  \
-  --version=$JHUB_VERSION \
-  --values config.yaml
+./rehelm.sh --install
 
-# Optional, autocompletion:
-kubectl config set-context $(kubectl config current-context) --namespace $NAMESPACE
+# Show what's running
+./show_pods.sh
 
-# Pause here.
-kubectl get pod --namespace $NAMESPACE
-kubectl get service --namespace $NAMESPACE
-
-# Consider the following to reset https, if not enabled.
-# kubectl get secrets
-# kubectl delete secret proxy-public-tls-acme
-# kubectl get secrets
-# kubectl delete pods $(kubectl get pods -o custom-columns=POD:metadata.name | grep autohttps-)
+echo Consider the following to reset https, if not correctly enabled.
+echo ./log_autohttps.sh
+echo source reset_autohttps.sh
