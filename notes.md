@@ -80,6 +80,10 @@ If you want to scale to more than a few users, you will need to:
   link](https://console.cloud.google.com/iam-admin/quotas?pageState=(%22allQuotasTable%22:(%22f%22:%22%255B%257B_22k_22_3A_227%2520Day%2520Peak%2520Usage_22_2C_22t_22_3A1_2C_22v_22_3A_22%257B_5C_22v_5C_22_3A_5C_220_5C_22_2C_5C_22o_5C_22_3A_5C_22%253E_5C_22%257D_22_2C_22i_22_3A_22seven-day-peak-usage_22%257D_2C%257B_22k_22_3A_22_22_2C_22t_22_3A10_2C_22v_22_3A_22_5C_22CPUs_5C_22_22%257D%255D%22,%22s%22:%5B(%22i%22:%22seven-day-peak-usage%22,%22s%22:%221%22),(%22i%22:%22service%22,%22s%22:%220%22)%5D)))
   to ask for modification of your quota.
 
+## Storage
+
+See <https://zero-to-jupyterhub.readthedocs.io/en/latest/customizing/user-storage.html>.
+
 ## Local Helm
 
 Install Helm v2 in `$HOME/usr/local/bin` filesystem:
