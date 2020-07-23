@@ -39,12 +39,13 @@ kubectl --namespace kube-system create serviceaccount tiller
 # Give the ServiceAccount full permissions to manage the cluster.
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
 
+# Initialize Helm
+. reinit.sh
+
 # Ensure that tiller is secure from access inside the cluster:
 kubectl patch deployment tiller-deploy \
     --namespace=kube-system --type=json \
     --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
-
-. reinit.sh
 
 echo Next run
 echo source build_gjhub.sh

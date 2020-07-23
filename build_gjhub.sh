@@ -16,4 +16,4 @@ source set_config.sh
 
 echo Consider the following to reset https, if not correctly enabled.
 echo ./log_autohttps.sh
-echo source reset_autohttps.sh
+echo ./reset_autohttps.sh
