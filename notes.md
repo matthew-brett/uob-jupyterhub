@@ -84,6 +84,12 @@ If you want to scale to more than a few users, you will need to:
 
 See <https://zero-to-jupyterhub.readthedocs.io/en/latest/customizing/user-storage.html>.
 
+Create `StorageClass` for the storage you will use.  Make a file like those in
+`configs` and make the storage class with e.g. `kubectl apply -f
+configs/pd_ssd.yaml`.
+
+Then use named storage in `config.yaml` as noted in link above.
+
 ## Local Helm
 
 Install Helm v2 in `$HOME/usr/local/bin` filesystem:
@@ -100,7 +106,15 @@ You might want to set up authentication, as below.  I used Globus.
 ## Examples
 
 There are various examples of configuration in
-<https://github.com/berkeley-dsep-infra/datahub/tree/staging/deployments>.
+<https://github.com/berkeley-dsep-infra/datahub/tree/staging/deployments>,
+with some overview in the [datahub
+docs](https://docs.datahub.berkeley.edu/en/latest/users/hubs.html).
+
+## Keeping secrets
+
+See
+<https://discourse.jupyter.org/t/best-practices-for-secrets-in-z2jh-deployments/1292>
+and <https://github.com/berkeley-dsep-infra/datahub/issues/596>.
 
 ## The whole thing
 

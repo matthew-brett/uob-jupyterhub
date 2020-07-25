@@ -4,9 +4,9 @@ JHUB_CLUSTER=jhub-cluster-testing
 RELEASE=jhub-testing
 NAMESPACE=jhub-testing
 # VM type for running the always-on part of the infrastructure.
-DEFAULT_MACHINE=n1-standard-2
+DEFAULT_MACHINE=e2-standard-2
 # VM type for housing the users.
-USER_MACHINE=n1-highmem-32
+USER_MACHINE=e2-standard-2
 # Maximum number nodes in the cluster.
 MAX_NODES=20
 # Helm chart for JupyterHub / Kubernetes. See:

@@ -47,5 +47,11 @@ kubectl patch deployment tiller-deploy \
     --namespace=kube-system --type=json \
     --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
 
+# Initialize storage classes for SSD and standard storage
+# https://zero-to-jupyterhub.readthedocs.io/en/latest/customizing/user-storage.html
+# Needed for config.yaml setting of storage
+kubectl apply -f configs/pd_ssd.yaml
+kubectl apply -f configs/pd_std.yaml
+
 echo Next run
 echo source build_gjhub.sh
