@@ -380,6 +380,22 @@ kubectl get secret,sa,role,rolebinding,services,deployments,pods --all-namespace
 See also [JupyterHub
 security](https://jupyterhub.readthedocs.io/en/stable/reference/websecurity.html).
 
+## Security review
+
+Following the headings in the link above:
+
+* HTTPS: enabled via LetsEncrypt
+* Secure access to Helm: patch listed applied in `init_gjhub.sh`.
+* Audit Cloud Metadata server access: access blocked by default (and not enabled by me).
+* Delete the Kubernetes Dashboard: checked - dashboard not running
+* Use Role Based Access Control (RBAC): Google uses RBAC, thus enabled by default.
+* Kubernetes API Access: disabled by default (and not enabled by me).
+* Kubernetes Network Policies: disabled by default (and not enabled by me).
+* Restricting Load Balancer Access: not currently restricted.
+
+The Helm charts hosted via <https://jupyterhub.github.io/helm-chart>.  At time
+of writing (2020-08-29), I'm using the latest, 0.9.1 - see `./vars.sh`.
+
 ## Tear it all down
 
 ```
