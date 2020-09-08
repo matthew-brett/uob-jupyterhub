@@ -29,6 +29,10 @@ Regions contain *zones*.  See the
 [docs](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)
 I've specified zone b --- see the `vars.sh` file.
 
+## Documentation links
+
+* <https://kubernetes.io/docs/reference/kubectl/cheatsheet>
+
 ## Static IP addresses
 
 I believe the standard JupyterHub / Kubernetes setup uses a Service to route
