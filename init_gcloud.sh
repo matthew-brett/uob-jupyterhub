@@ -1,9 +1,9 @@
-# Master script to initialize cluster according to specs in:
+# Initialize cluster on GCloud according to specs in:
 #
-# https://zero-to-jupyterhub.readthedocs.io/en/latest/create-k8s-cluster.html
+# https://zero-to-jupyterhub.readthedocs.io/en/latest/google/step-zero-gcp.html
 #
 # Depends on:
-#   vars.sh (via config.sh)
+#   vars.sh (via set_config.sh)
 source set_config.sh
 
 # Create the main cluster.
