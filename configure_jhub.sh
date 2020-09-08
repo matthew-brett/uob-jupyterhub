@@ -11,7 +11,7 @@
 source set_config.sh
 
 # Apply Helm chart.
-./rehelm.sh --install
+./rehelm.sh --install --create-namespace
 
 # Show what's running
 ./show_pods.sh

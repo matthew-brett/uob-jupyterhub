@@ -10,9 +10,9 @@ kubectl config use-context gke_${PROJECT_ID}_${REGION}_${JHUB_CLUSTER}
 kubectl config set-context $(kubectl config current-context) --namespace ${NAMESPACE:-jhub}
 
 # Check correct version of helm is installed
-HELM_VER=$(helm version --client --template '{{ .Client.SemVer }}')
-if [ "${HELM_VER:0:3}" != "v2." ]; then
-    echo run install_helm.sh for helm 2
+HELM_VER=$(helm version --short)
+if [ "${HELM_VER:0:3}" != "v3." ]; then
+    echo run install_helm.sh for helm 3
     return 1
 fi
 
