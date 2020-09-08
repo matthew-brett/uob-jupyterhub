@@ -12,5 +12,6 @@ helm upgrade $* \
     $RELEASE jupyterhub/jupyterhub  \
     --timeout 10m0s \
     --namespace=$NAMESPACE \
+    --create-namespace \
     --version=$JHUB_VERSION \
     --values config.yaml
