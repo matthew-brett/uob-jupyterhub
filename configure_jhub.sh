@@ -1,7 +1,9 @@
 # Master script to build cluster according to specs in:
 #
 # Run after
-#   source init_gjhub.sh
+#   source init_gcloud.sh
+#   source init_kubernetes.sh
+#   source setup_helm.sh
 #
 # Depends on:
 # vars.sh

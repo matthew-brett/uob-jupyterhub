@@ -126,15 +126,23 @@ and maybe authentication, see below.
 * Run:
 
 ```
-# Initialize cluster, and Helm
+# Initialize cluster
 source init_gjhub.sh
 ```
 
-Then:
+```
+# Initialize Kubernetes
+source init_kubernetes.sh
+```
+
+```
+# Initialize Helm
+source setup_helm.sh
+```
 
 ```
 # Configure cluster by applying Helm chart
-source build_gjhub.sh
+source configure_jhub.sh
 ```
 
 Test https.   You might need to:
