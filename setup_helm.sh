@@ -16,9 +16,6 @@ if [ "${HELM_VER:0:3}" != "v3." ]; then
     return 1
 fi
 
-# Initalize helm
-helm init --service-account tiller --history-max 100 --wait
-
 # Reinit jupyterhub helm chart repo
 helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
 helm repo update

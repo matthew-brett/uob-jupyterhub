@@ -5,7 +5,7 @@
 #   config.yaml
 . set_config.sh
 
-helm delete $RELEASE --purge
+helm delete $RELEASE
 kubectl delete namespace $NAMESPACE
 gcloud container clusters delete $JHUB_CLUSTER --region $REGION
 
