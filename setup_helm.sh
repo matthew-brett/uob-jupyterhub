@@ -24,4 +24,4 @@ helm repo update
 kubectl get pod --namespace $NAMESPACE
 
 echo Next run
-echo source init_jhub.sh
+echo source configure_jhub.sh
