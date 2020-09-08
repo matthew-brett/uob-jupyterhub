@@ -17,11 +17,6 @@ kubectl --namespace kube-system create serviceaccount tiller
 # Give the ServiceAccount full permissions to manage the cluster.
 kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
 
-# Ensure that tiller is secure from access inside the cluster:
-kubectl patch deployment tiller-deploy \
-    --namespace=kube-system --type=json \
-    --patch='[{"op": "add", "path": "/spec/template/spec/containers/0/command", "value": ["/tiller", "--listen=localhost:44134"]}]'
-
 # Initialize storage classes for SSD and standard storage
 # https://zero-to-jupyterhub.readthedocs.io/en/latest/customizing/user-storage.html
 # Needed for config.yaml setting of storage
