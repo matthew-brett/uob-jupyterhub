@@ -72,6 +72,8 @@ excellent help and
 discussion](https://discourse.jupyter.org/t/scheduler-insufficient-memory-waiting-errors-any-suggestions/5314).
 If you want to scale to more than a few users, you will need to:
 
+* Make sure you have enough nodes in the user pool - see section: "Upgrade
+  / downgrade number of nodes"
 * Specify minimum memory and CPU requirements carefully.  See [this section of
   the
   docs](https://zero-to-jupyterhub.readthedocs.io/en/latest/customizing/user-resources.html#set-user-memory-and-cpu-guarantees-limits).
@@ -131,7 +133,7 @@ and maybe authentication, see below.
 
 ```
 # Initialize cluster
-source init_gjhub.sh
+source init_gcloud.sh
 ```
 
 ```

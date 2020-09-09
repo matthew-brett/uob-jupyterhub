@@ -24,4 +24,4 @@ kubectl apply -f configs/pd_ssd.yaml
 kubectl apply -f configs/pd_std.yaml
 
 echo Next run
-echo source init_helm.sh
+echo source setup_helm.sh
