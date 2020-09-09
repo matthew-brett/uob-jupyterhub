@@ -1,10 +1,10 @@
 # Source this file.
-PROJECT_ID=uob-jupyterhub
-JHUB_CLUSTER=jhub-cluster
-RELEASE=jhub
-NAMESPACE=jhub
+PROJECT_ID=uob-testing
+JHUB_CLUSTER=jhub-cluster-testing
+RELEASE=jhub-testing
+NAMESPACE=jhub-testing
 # VM type for running the always-on part of the infrastructure.
-DEFAULT_MACHINE=e2-standard-2
+DEFAULT_MACHINE=n1-standard-4
 # VM type for housing the users.
 USER_MACHINE=e2-standard-2
 # Maximum number nodes in the cluster.
@@ -19,7 +19,7 @@ REGION=europe-west2
 # Zone within region; see notes
 ZONE=europe-west2-b
 EMAIL=matthew.brett@gmail.com
-UOBHUB_IP=35.189.82.198
+UOBHUB_IP=34.105.129.229
 # Dataset to which billing information will be written
 # See the Google Cloud Billing Export pane for detail; enable daily cost
 # detail, and set up / name dataset there.
