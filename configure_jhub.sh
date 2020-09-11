@@ -1,4 +1,5 @@
-# Master script to build cluster according to specs in:
+#!/bin/bash
+# Master script to setup, configure jupyterhub cluster
 #
 # Run after
 #   source init_gcloud.sh

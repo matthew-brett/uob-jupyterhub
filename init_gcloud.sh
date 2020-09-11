@@ -1,3 +1,4 @@
+#!/bin/bash
 # Initialize cluster on GCloud according to specs in:
 #
 # https://zero-to-jupyterhub.readthedocs.io/en/latest/google/step-zero-gcp.html

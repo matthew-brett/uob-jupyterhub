@@ -1,4 +1,5 @@
-# Source this file to restore state for configuration.
+#!/bin/bash
+# Restore state for configuration.
 # Source config
 source set_config.sh
 

@@ -1,3 +1,5 @@
+#!/bin/bash
+# Do local install of Helm
 HOME_BIN=$HOME/usr/local/bin
 HELM_INSTALLER=helm_installer.sh
 mkdir -p $HOME_BIN

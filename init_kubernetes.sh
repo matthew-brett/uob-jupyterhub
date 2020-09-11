@@ -1,3 +1,4 @@
+#!/bin/bash
 # Master script to initialize Kubernetes according to specs in:
 #
 # https://zero-to-jupyterhub.readthedocs.io/en/latest/create-k8s-cluster.html
