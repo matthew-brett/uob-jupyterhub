@@ -560,3 +560,20 @@ CURRENT   NAME                                           CLUSTER                
           gke_uob-jupyterhub_europe-west2_jhub-cluster   gke_uob-jupyterhub_europe-west2_jhub-cluster   gke_uob-jupyterhub_europe-west2_jhub-cluster   jhub
 $ kubectl config use-context gke_uob-jupyterhub_europe-west2_jhub-cluster
 ```
+
+## Performance tuning
+
+See:
+
+* <https://github.com/jupyterhub/kubespawner/issues/423>
+* <https://discourse.jupyter.org/t/core-component-resilience-reliability/5433>
+* <https://discourse.jupyter.org/t/background-for-jupyterhub-kubernetes-cost-calculations/5289/5>
+
+For example:
+
+```
+jupyterhub:
+  hub:
+    activity_resolution: 120  # Default 30
+    hub_activity_interval: 600  # Default 300
+    last_activity_interval: 300  # Default 300
