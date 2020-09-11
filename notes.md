@@ -612,3 +612,5 @@ Thanks to Min R-K for pointing me to these.
 ## Storage volumes
 
 See <https://discourse.jupyter.org/t/additional-storage-volumes/5012/7>
+
+Also see <https://github.com/berkeley-dsep-infra/datahub/blob/de634c50046e53dcd88981fcaa37085fae1ee1d9/docs/admins/storage.rst> and matching Datahub / Data8x setup.
