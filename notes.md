@@ -565,15 +565,50 @@ $ kubectl config use-context gke_uob-jupyterhub_europe-west2_jhub-cluster
 
 See:
 
-* <https://github.com/jupyterhub/kubespawner/issues/423>
-* <https://discourse.jupyter.org/t/core-component-resilience-reliability/5433>
+* [Performance speedup in
+Kubespawner](https://github.com/jupyterhub/kubespawner/issues/423) (merged
+August 2020).
+* [Discussion of factors increasing
+resilience](https://discourse.jupyter.org/t/core-component-resilience-reliability/5433).
 * <https://discourse.jupyter.org/t/background-for-jupyterhub-kubernetes-cost-calculations/5289/5>
 
 For example:
 
 ```
+scheduling:
+  userScheduler:
+    enabled: true
+  podPriority:
+    enabled: true
+  userPlaceholder:
+    # Specify three dummy user pods will be used as placeholders
+    enabled: true
+    replicas: 250
+  userPods:
+    nodeAffinity:
+      # matchNodePurpose valid options:
+      # - ignore
+      # - prefer (the default)
+      # - require
+      matchNodePurpose: require
+
 jupyterhub:
   hub:
     activity_resolution: 120  # Default 30
     hub_activity_interval: 600  # Default 300
     last_activity_interval: 300  # Default 300
+    init_spawners_timeout: 1  # Default 10
+```
+
+Good scaling will probably need a Postgres server.
+
+## Debugging scaling
+
+Thanks to Min R-K for pointing me to these.
+
+* <https://console.cloud.google.com/iam-admin/quotas>
+* <https://console.cloud.google.com/kubernetes/workload>
+
+## Storage volumes
+
+See <https://discourse.jupyter.org/t/additional-storage-volumes/5012/7>
