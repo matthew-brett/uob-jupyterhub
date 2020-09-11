@@ -9,7 +9,8 @@ fi
 # Allows pre-pulling of new Docker images on install / upgrade.
 helm upgrade $* \
     --cleanup-on-fail \
-    $RELEASE jupyterhub/jupyterhub  \
+    $RELEASE \
+    jupyterhub/jupyterhub  \
     --timeout 10m0s \
     --namespace=$NAMESPACE \
     --create-namespace \
