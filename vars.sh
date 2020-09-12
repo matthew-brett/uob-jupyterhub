@@ -24,3 +24,7 @@ UOBHUB_IP=34.105.129.229
 # See the Google Cloud Billing Export pane for detail; enable daily cost
 # detail, and set up / name dataset there.
 RESOURCE_DATASET=uob_jupyterhub_billing
+# NFS
+NFS_RELEASE=nfs-server-rel
+NFS_NAMESPACE=nfs-server-ns
+NFS_CONFIG=configs/nfs_config.yaml

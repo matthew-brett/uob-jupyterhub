@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jh-nfs-claim
+spec:
+  storageClassName: jh-nfs-sc
+  accessModes:
+    - ReadOnlyMany
+  resources:
+    requests:
+      storage: 80Mi

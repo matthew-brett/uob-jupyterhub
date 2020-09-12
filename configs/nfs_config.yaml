@@ -1,0 +1,12 @@
+# https://github.com/helm/charts/tree/master/stable/nfs-server-provisioner
+persistence:
+  enabled: true
+  storageClass: jupyterhub-user-std
+  size: 2Gi
+
+storageClass:
+  # Whether to set the created StorageClass as the cluster's default
+  # StorageClass.
+  defaultClass: false
+  name: jh-nfs-sc
+  reclaimPolicy: Retain
