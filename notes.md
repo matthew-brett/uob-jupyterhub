@@ -399,16 +399,17 @@ security](https://jupyterhub.readthedocs.io/en/stable/reference/websecurity.html
 Following the headings in the link above:
 
 * HTTPS: enabled via LetsEncrypt
-* Secure access to Helm: patch listed applied in `init_gjhub.sh`.
-* Audit Cloud Metadata server access: access blocked by default (and not enabled by me).
+* Secure access to Helm : using Helm 3, patch no longer relevant.
+* Audit Cloud Metadata server access: access blocked by default (and not
+enabled by me).
 * Delete the Kubernetes Dashboard: checked - dashboard not running
 * Use Role Based Access Control (RBAC): Google uses RBAC, thus enabled by default.
 * Kubernetes API Access: disabled by default (and not enabled by me).
 * Kubernetes Network Policies: disabled by default (and not enabled by me).
-* Restricting Load Balancer Access: not currently restricted.
 
 The Helm charts hosted via <https://jupyterhub.github.io/helm-chart>.  At time
-of writing (2020-08-29), I'm using the latest, 0.9.1 - see `./vars.sh`.
+of writing (2020-09-12), I'm using the latest devel version,
+`0.9.0-n233.hcd1eff7a` - see `./vars.sh`.
 
 ## Tear it all down
 
