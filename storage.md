@@ -120,7 +120,7 @@ Procedure:
 ```
 # Setup
 kubectl create -f configs/data_volume.yaml
-kubectl create -f test_deployment.yaml
+kubectl create -f configs/test_deployment.yaml
 kubectl get pod
 ```
 
