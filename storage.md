@@ -135,3 +135,31 @@ kubectl delete deployment test-deployment
 kubectl delete pvc pv-claim-demo
 kubectl delete pv pv-demo
 ```
+
+## NFS procedure
+
+```
+# Setup
+kubectl create -f configs/data_volume.yaml
+kubectl create -f nfs-configs/nfs_deployment.yaml
+kubectl create -f nfs-configs/nfs_service.yaml
+kubectl create -f nfs-configs/data_volume.yaml
+kubectl create -f configs/test_deployment.yaml
+kubectl get pod
+```
+
+```
+# Test example.
+kubectl exec test-deployment-5d8cb48cdd-m7b6x --stdin --tty -- /bin/sh
+```
+
+```
+# Cleanup
+kubectl delete deployment test-deployment
+kubectl delete pvc pv-claim-demo
+kubectl delete pv pv-demo
+kubectl delete service nfs-server
+kubectl delete deployment nfs-server
+kubectl delete pvc nfs
+kubectl delete pv nfs
+```

@@ -24,9 +24,14 @@ spec:
         volumeMounts:
         - mountPath: /test-pd
           name: test-volume
+        - name: my-pvc-nfs
+          mountPath: "/mnt"
       volumes:
       - name: test-volume
         persistentVolumeClaim:
           # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#claims-as-volumes
           claimName: pv-claim-demo
           readOnly: true
+      - name: my-pvc-nfs
+        persistentVolumeClaim:
+          claimName: nfs
