@@ -1,0 +1,32 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+# https://github.com/kubernetes/kubernetes/issues/67313
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      name: test-deployment
+  template:
+    metadata:
+      labels:
+        name: test-deployment
+    spec:
+      containers:
+      - image: alpine:3.12
+        name: test-container
+        command:
+          - sleep
+          - "3600"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /test-pd
+          name: test-volume
+      volumes:
+      - name: test-volume
+        persistentVolumeClaim:
+          # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#claims-as-volumes
+          claimName: pv-claim-demo
+          readOnly: true
