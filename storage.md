@@ -150,16 +150,16 @@ kubectl get pod
 
 ```
 # Test example.
-kubectl exec test-deployment-5d8cb48cdd-m7b6x --stdin --tty -- /bin/sh
+kubectl exec --stdin --tty test-deployment-5d8cb48cdd-m7b6x -- /bin/sh
 ```
 
 ```
 # Cleanup
 kubectl delete deployment test-deployment
+kubectl delete deployment nfs-server
+kubectl delete service nfs-server
 kubectl delete pvc pv-claim-demo
 kubectl delete pv pv-demo
-kubectl delete service nfs-server
-kubectl delete deployment nfs-server
 kubectl delete pvc nfs
 kubectl delete pv nfs
 ```
