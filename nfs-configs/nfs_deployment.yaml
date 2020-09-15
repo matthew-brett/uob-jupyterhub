@@ -1,3 +1,4 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,6 +7,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
+      # Manage pods matching these key: value pairs.
       role: nfs-server
   template:
     metadata:
@@ -26,9 +28,9 @@ spec:
           privileged: true
         volumeMounts:
           - mountPath: /exports
-            name: mypvc
+            name: home-pvc
       volumes:
-        - name: mypvc
+        - name: home-pvc
           gcePersistentDisk:
             pdName: uobhub-home-disk
             fsType: ext4

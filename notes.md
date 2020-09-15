@@ -29,6 +29,23 @@ Regions contain *zones*.  See the
 [docs](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)
 I've specified zone b --- see the `vars.sh` file.
 
+## Authenticate
+
+Otherwise you'll get `The connection to the server localhost:8080 was refused`
+for various commands.
+
+```
+gcloud auth login
+```
+
+maybe followed by:
+
+```
+gcloud container clusters get-credentials <cluster-name --zone $ZONE
+```
+
+<https://stackoverflow.com/a/57592322/1939576>
+
 ## Documentation links
 
 * <https://kubernetes.io/docs/reference/kubectl/cheatsheet>

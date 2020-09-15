@@ -115,7 +115,7 @@ kubectl delete pods test-pd
 
 See also <https://kubernetes.io/docs/tasks/debug-application-cluster/determine-reason-pod-failure/>
 
-Procedure:
+## Single disk procedure
 
 ```
 # Setup
@@ -143,7 +143,7 @@ kubectl delete pv pv-demo
 kubectl create -f configs/data_volume.yaml
 kubectl create -f nfs-configs/nfs_deployment.yaml
 kubectl create -f nfs-configs/nfs_service.yaml
-kubectl create -f nfs-configs/data_volume.yaml
+kubectl create -f nfs-configs/nfs_pv_pvc.yaml
 kubectl create -f configs/test_deployment.yaml
 kubectl get pod
 ```

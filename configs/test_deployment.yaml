@@ -22,10 +22,10 @@ spec:
           - "3600"
         imagePullPolicy: IfNotPresent
         volumeMounts:
-        - mountPath: /test-pd
+        - mountPath: /mnt/test-pd
           name: test-volume
         - name: my-pvc-nfs
-          mountPath: "/mnt"
+          mountPath: /mnt/nfs-home
       volumes:
       - name: test-volume
         persistentVolumeClaim:
