@@ -488,7 +488,7 @@ auth:
 * [OAthenticator](https://github.com/jupyterhub/oauthenticator)
 * [Globus procedure](https://oauthenticator.readthedocs.io/en/latest/getting-started.html#globus-setup)
 
-Make an app at <https://developers.globus.org>, and follow instructions at [OAuthenticator Globus setup](https://oauthenticator.readthedocs.io/en/latest/getting-started.html#globus-setup).  I used:
+Make an app at <https://developers.globus.org>, and follow instructions at [OAuthenticator Globus setup](https://oauthenticator.readthedocs.io/en/latest/getting-started.html#globus-setup).
 
 As instructed, I enabled the scropes "openid profile
 urn:globus:auth:scope:transfer.api.globus.org:all".  I set the callback URL as
