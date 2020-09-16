@@ -25,4 +25,4 @@ helm repo update
 kubectl get pod --namespace $NAMESPACE
 
 echo Next run
-echo source configure_jhub.sh
+echo source init_nfs.sh

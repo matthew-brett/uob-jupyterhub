@@ -165,6 +165,11 @@ source setup_helm.sh
 ```
 
 ```
+# Initialize NFS
+source init_nfs.sh
+```
+
+```
 # Configure cluster by applying Helm chart
 source configure_jhub.sh
 ```
