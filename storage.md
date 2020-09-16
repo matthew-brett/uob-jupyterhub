@@ -163,3 +163,14 @@ kubectl delete pv pv-demo
 kubectl delete pvc nfs
 kubectl delete pv nfs
 ```
+
+## Finally
+
+```
+gcloud compute instances list
+```
+
+```
+inst_uri=$(gcloud compute instances list --uri)
+gcloud compute instances delete $inst_uri
+```
