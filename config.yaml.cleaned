@@ -1,15 +1,15 @@
 # NB secret values replaced with random equivalents.
 # Please check.
 
-# Testing / demo config
+# Main uobhub configuration.
 proxy:
   secretToken: a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f56789
   service:
-    loadBalancerIP: 34.105.129.229
+    loadBalancerIP: 35.189.82.198
   https:
     enabled: true
     hosts:
-    - hub.dynevor.org
+    - uobhub.org
     letsencrypt:
       contactEmail: yourname@somewhere.org
 
@@ -27,11 +27,36 @@ singleuser:
   memory:
     limit: 2G
     guarantee: 512M
+  storage:
+    type: static
+    static:
+      pvcName: nfs
+      subPath: '{username}'
+    extraVolumeMounts:
+    - mountPath: /home/jovyan/shared/data
+      name: nfs-data-vol
+    extraVolumes:
+    - name: nfs-data-vol
+      persistentVolumeClaim:
+          # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#claims-as-volumes
+        claimName: nfs-data
+        readOnly: true
 
 auth:
-  type: dummy
-  dummy:
-    password: your_secret_password
+  type: globus
+  globus:
+    clientId: a0b1c2d3-a0b1-a0b1-a0b1-a0b1c2d3e4f5
+    clientSecret: a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f5
+    callbackUrl: https://uobhub.org/hub/oauth_callback
+    identityProvider: bham.ac.uk
+
+jupyterhub:
+  hub:
+    # See: https://jupyterhub.readthedocs.io/en/stable/api/app.html
+    activity_resolution: 120  # Default 30.
+    hub_activity_interval: 600  # Default 300.
+    last_activity_interval: 300  # Default 300, 60 in z2jh helm chart.
+    init_spawners_timeout: 1  # Default 10
 
 # https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/optimization.html
 scheduling:
@@ -39,6 +64,3 @@ scheduling:
     enabled: true
   podPriority:
     enabled: true
-  userPlaceholder:
-    enabled: true
-    replicas: 2
