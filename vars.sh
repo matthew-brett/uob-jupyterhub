@@ -1,8 +1,8 @@
 # Source this file.
-PROJECT_ID=uob-testing
-JHUB_CLUSTER=jhub-cluster-testing
-RELEASE=jhub-testing
-NAMESPACE=jhub-testing
+PROJECT_ID=uob-jupyterhub
+JHUB_CLUSTER=jhub-cluster
+RELEASE=jhub
+NAMESPACE=jhub
 # VM type for running the always-on part of the infrastructure.
 DEFAULT_MACHINE=n1-custom-1-6656
 DEFAULT_DISK_SIZE=30Gi
