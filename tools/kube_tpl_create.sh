@@ -8,4 +8,4 @@ MY_DIR=$(dirname "${BASH_SOURCE[0]}")
 set -a
 . ${MY_DIR}/../vars.sh
 set +a
-envsubst < $yaml_file | cat
+envsubst < $yaml_file | kubectl create -f -
