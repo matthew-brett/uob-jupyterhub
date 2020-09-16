@@ -5,10 +5,8 @@ RELEASE=jhub-testing
 NAMESPACE=jhub-testing
 # VM type for running the always-on part of the infrastructure.
 DEFAULT_MACHINE=n1-custom-1-6656
-DEFAULT_DISK_SIZE=30Gi
 # VM type for housing the users.
 USER_MACHINE=e2-standard-2
-USER_DISK_SIZE=30Gi
 # Maximum number nodes in the cluster.
 MAX_NODES=23
 # Helm chart for JupyterHub / Kubernetes. See:

@@ -14,6 +14,7 @@ gcloud container clusters create \
   --cluster-version latest \
   --node-locations $ZONE \
   --region $REGION \
+  --disk-size $DEFAULT_DISK_SIZE \
   $JHUB_CLUSTER
 
 # Optional - create a special user cluster.
@@ -27,6 +28,7 @@ gcloud beta container node-pools create user-pool \
   --node-taints hub.jupyter.org_dedicated=user:NoSchedule \
   --node-locations $ZONE \
   --region $REGION \
+  --disk-size $USER_DISK_SIZE \
   --cluster $JHUB_CLUSTER
 
 echo Next run

@@ -1,0 +1,40 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+# https://github.com/kubernetes/kubernetes/issues/67313
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: test-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      # This key: value pair should match the template labels below.
+      name: test-deployment
+  template:
+    metadata:
+      labels:
+        name: test-deployment
+    spec:
+      containers:
+      - image: alpine:3.12
+        name: test-container
+        command:
+          - sleep
+          - "3600"
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /data
+          name: test-volume
+        - name: my-pvc-nfs
+          mountPath: /mnt/nfs-home
+          # https://kubernetes.io/docs/concepts/storage/volumes/
+          subPath: my-user
+      volumes:
+      - name: test-volume
+        persistentVolumeClaim:
+          # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#claims-as-volumes
+          claimName: pv-claim-demo
+          readOnly: true
+      - name: my-pvc-nfs
+        persistentVolumeClaim:
+          claimName: nfs
