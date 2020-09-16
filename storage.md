@@ -87,6 +87,16 @@ Teardown instance:
 gcloud compute instances delete test-machine
 ```
 
+## Resize disk
+
+```
+# https://cloud.google.com/compute/docs/disks/add-persistent-disk#resize_pd
+DISK_NAME=uobhub-home-disk
+DISK_SIZE=12
+gcloud compute disks resize $DISK_NAME \
+   --size $DISK_SIZE --zone=$ZONE
+```
+
 ## Use pre-existing volumes
 
 <https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd>
