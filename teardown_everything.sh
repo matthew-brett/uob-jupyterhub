@@ -7,8 +7,9 @@
 
 helm delete $RELEASE
 kubectl delete namespace $NAMESPACE
-gcloud container clusters delete $JHUB_CLUSTER --region $REGION
+gcloud container clusters delete $JHUB_CLUSTER --region $REGION --quiet
 
 # Check teardown
+gcloud container clusters list
 gcloud compute instances list
 gcloud compute disks list

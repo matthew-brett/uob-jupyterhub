@@ -52,7 +52,8 @@ Now follow instructions at <https://cloud.google.com/compute/docs/disks/add-pers
 
 ```
 # SSH into instance
-gcloud beta compute ssh --zone $ZONE test-machine --project $PROJECT_ID
+MACHINE=test-machine
+gcloud beta compute ssh --zone $ZONE $MACHINE --project $PROJECT_ID
 ```
 
 ```
@@ -80,7 +81,7 @@ sudo mount -o discard,defaults /dev/$DEVICE $MNT_POINT
 sudo chmod ${PERMISSIONS} $MNT_POINT
 ```
 
-Teardown instance
+Teardown instance:
 
 ```
 gcloud compute instances delete test-machine
@@ -181,6 +182,6 @@ gcloud compute instances list
 ```
 
 ```
-inst_uri=$(gcloud compute instances list --uri)
-gcloud compute instances delete $inst_uri
+cluster_uri=$(gcloud container clusters list --uri)
+gcloud container clusters delete $cluster_uri --quiet
 ```
