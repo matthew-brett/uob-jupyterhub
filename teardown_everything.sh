@@ -11,3 +11,4 @@ gcloud container clusters delete $JHUB_CLUSTER --region $REGION
 
 # Check teardown
 gcloud compute instances list
+gcloud compute disks list

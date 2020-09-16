@@ -41,7 +41,8 @@ gcloud auth login
 maybe followed by:
 
 ```
-gcloud container clusters get-credentials <cluster-name --zone $ZONE
+CLUSTER=test-cluster  # or whatever
+gcloud container clusters get-credentials $CLUSTER --zone $ZONE
 ```
 
 <https://stackoverflow.com/a/57592322/1939576>

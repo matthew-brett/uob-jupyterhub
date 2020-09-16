@@ -80,6 +80,12 @@ sudo mount -o discard,defaults /dev/$DEVICE $MNT_POINT
 sudo chmod ${PERMISSIONS} $MNT_POINT
 ```
 
+Teardown instance
+
+```
+gcloud compute instances delete test-machine
+```
+
 ## Use pre-existing volumes
 
 <https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd>

@@ -9,7 +9,7 @@ spec:
     - ReadWriteMany
   nfs:
     # FIXED: Use internal DNS name
-    server: nfs-server.default.svc.cluster.local
+    server: nfs-server.${NAMESPACE}.svc.cluster.local
     path: "/2020-homes/"
 
 ---
