@@ -30,6 +30,7 @@ gcloud compute disks list
 
 ```
 # Create an instance
+. vars.sh
 gcloud compute instances create \
     test-machine \
     --image debian-10-buster-v20200910 \
@@ -89,6 +90,7 @@ sudo chmod ${PERMISSIONS} $MNT_POINT
 
 ```
 # Test cluster
+. vars.sh
 gcloud container clusters create \
     --machine-type=g1-small \
     --num-nodes 1 \
@@ -96,6 +98,8 @@ gcloud container clusters create \
     --node-locations $ZONE \
     test-cluster
 ```
+
+Some useful commands.  Don't run these all at once.
 
 ```
 # Useful commands
@@ -120,7 +124,7 @@ See also <https://kubernetes.io/docs/tasks/debug-application-cluster/determine-r
 ```
 # Setup
 kubectl create -f configs/data_volume.yaml
-kubectl create -f configs/test_deployment.yaml
+kubectl create -f configs/test_pd_deployment.yaml
 kubectl get pod
 ```
 
@@ -144,7 +148,7 @@ kubectl create -f configs/data_volume.yaml
 kubectl create -f nfs-configs/nfs_deployment.yaml
 kubectl create -f nfs-configs/nfs_service.yaml
 kubectl create -f nfs-configs/nfs_pv_pvc.yaml
-kubectl create -f configs/test_deployment.yaml
+kubectl create -f nfs-configs/test_nfs_deployment.yaml
 kubectl get pod
 ```
 
@@ -156,8 +160,8 @@ kubectl exec --stdin --tty test-deployment-5d8cb48cdd-m7b6x -- /bin/sh
 ```
 # Cleanup
 kubectl delete deployment test-deployment
-kubectl delete deployment nfs-server
 kubectl delete service nfs-server
+kubectl delete deployment nfs-server
 kubectl delete pvc pv-claim-demo
 kubectl delete pv pv-demo
 kubectl delete pvc nfs

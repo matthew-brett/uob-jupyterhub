@@ -22,16 +22,11 @@ spec:
           - "3600"
         imagePullPolicy: IfNotPresent
         volumeMounts:
-        - mountPath: /data
+        - mountPath: /test-pd
           name: test-volume
-        - name: my-pvc-nfs
-          mountPath: /mnt/nfs-home
       volumes:
       - name: test-volume
         persistentVolumeClaim:
           # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#claims-as-volumes
           claimName: pv-claim-demo
           readOnly: true
-      - name: my-pvc-nfs
-        persistentVolumeClaim:
-          claimName: nfs
