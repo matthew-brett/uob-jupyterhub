@@ -19,6 +19,8 @@ singleuser:
     # https://hub.docker.com/r/jupyter/datascience-notebook/tags/
     # Inspect the Dockerfile at:
     # https://github.com/jupyter/docker-stacks/tree/master/datascience-notebook/Dockerfile
+    # This image below might be related to:
+    # https://github.com/berkeley-dsep-infra/datahub/tree/staging/deployments/datahub/images/default
     name: gcr.io/ucb-datahub-2018/workshop-user-image
     tag: 3cd7a6b
   cpu:
