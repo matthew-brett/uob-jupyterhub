@@ -89,12 +89,28 @@ gcloud compute instances delete test-machine
 
 ## Resize disk
 
+<https://cloud.google.com/compute/docs/disks/add-persistent-disk#resize_pd>
+
 ```
-# https://cloud.google.com/compute/docs/disks/add-persistent-disk#resize_pd
 DISK_NAME=uobhub-home-disk
 DISK_SIZE=12
 gcloud compute disks resize $DISK_NAME \
    --size $DISK_SIZE --zone=$ZONE
+```
+
+## Snapshots
+
+<https://cloud.google.com/compute/docs/disks/create-snapshots>
+
+```
+# Show snapshots
+gcloud compute snapshots list
+```
+
+```
+DISK_NAME=uobhub-home-disk
+gcloud compute disks snapshot $DISK_NAME \
+    --zone $ZONE
 ```
 
 ## Use pre-existing volumes
