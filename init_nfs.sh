@@ -10,7 +10,7 @@ kubectl create namespace $NAMESPACE
 # Set up NFS server
 # Complete YaML files with variables from vars.sh,
 # pass to kubectl create
-./tools/kube_tpl_create.sh nfs-configs/nfs_deployment.yaml
+./tools/kube_tpl_create.sh nfs-configs/nfs_deployment_tpl.yaml
 kubectl create -f nfs-configs/nfs_service.yaml
 # Set up PV, PVC for home dirs and data directory.
 ./tools/kube_tpl_create.sh nfs-configs/nfs_pv_pvc_tpl.yaml
