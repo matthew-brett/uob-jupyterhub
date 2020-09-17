@@ -9,7 +9,7 @@
 # Set default zone / region
 . vars.sh
 
-DISK_NAME=uobhub-home-disk
+DISK_NAME=${CLUSTER_DISK}
 
 # https://cloud.google.com/compute/docs/gcloud-compute#set_default_zone_and_region_in_your_local_client
 gcloud config set compute/zone $ZONE
@@ -20,7 +20,7 @@ gcloud config set compute/region $REGION
 # Create the disk
 # Size minimum is 10GB
 gcloud compute disks create \
-    --size=10GB \
+    --size=200GB \
     --zone $ZONE \
     --type pd-standard \
     ${DISK_NAME}
@@ -65,7 +65,7 @@ sudo lsblk  # Check disk device id
 # Set device ID, mount point, permissions
 DEVICE=sdb
 MNT_POINT=/mnt/disks/data
-PERMISSIONS="a+rw"
+PERMISSIONS="a+r"
 ```
 
 ```
@@ -81,10 +81,17 @@ sudo mount -o discard,defaults /dev/$DEVICE $MNT_POINT
 sudo chmod ${PERMISSIONS} $MNT_POINT
 ```
 
+```
+# Make the expected disk structure
+cd $MNT_POINT
+sudo mkdir data 2020-homes
+sudo chmod a+rw 2020-homes
+```
+
 Teardown instance:
 
 ```
-gcloud compute instances delete test-machine
+gcloud compute instances delete test-machine --quiet
 ```
 
 ## Resize disk
@@ -92,8 +99,9 @@ gcloud compute instances delete test-machine
 <https://cloud.google.com/compute/docs/disks/add-persistent-disk#resize_pd>
 
 ```
-DISK_NAME=uobhub-home-disk
-DISK_SIZE=12
+. vars.sh
+DISK_NAME=${CLUSTER_DISK}
+DISK_SIZE=200
 gcloud compute disks resize $DISK_NAME \
    --size $DISK_SIZE --zone=$ZONE
 ```
@@ -108,7 +116,7 @@ gcloud compute snapshots list
 ```
 
 ```
-DISK_NAME=uobhub-home-disk
+DISK_NAME=${CLUSTER_DISK}
 gcloud compute disks snapshot $DISK_NAME \
     --zone $ZONE
 ```

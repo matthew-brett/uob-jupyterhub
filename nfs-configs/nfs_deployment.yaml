@@ -32,5 +32,5 @@ spec:
       volumes:
         - name: home-pvc
           gcePersistentDisk:
-            pdName: uobhub-home-disk
+            pdName: ${CLUSTER_DISK}
             fsType: ext4

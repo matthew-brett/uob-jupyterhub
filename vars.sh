@@ -26,3 +26,7 @@ UOBHUB_IP=34.105.129.229
 # See the Google Cloud Billing Export pane for detail; enable daily cost
 # detail, and set up / name dataset there.
 RESOURCE_DATASET=uob_jupyterhub_billing
+# Disk for data and homes
+CLUSTER_DISK=jhub-home-data
+HOME_PATH=/2020-homes/
+DATA_PATH=/data/

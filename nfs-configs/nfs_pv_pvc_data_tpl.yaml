@@ -10,7 +10,7 @@ spec:
   nfs:
     # FIXED: Use internal DNS name
     server: nfs-server.${NAMESPACE}.svc.cluster.local
-    path: "/data/"
+    path: "${DATA_PATH}"
 
 ---
 kind: PersistentVolumeClaim
