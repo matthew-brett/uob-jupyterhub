@@ -4,7 +4,6 @@ kind: Service
 metadata:
   name: nfs-server
 spec:
-  # clusterIP: 10.3.240.20
   ports:
     - name: nfs
       port: 2049
@@ -14,4 +13,3 @@ spec:
       port: 111
   selector:
     role: nfs-server
-#  type: "LoadBalancer"
