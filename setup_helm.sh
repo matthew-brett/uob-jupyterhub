@@ -3,9 +3,8 @@
 # Source config
 source set_config.sh
 
-# Reset cluster context, just in case
-# Warning: Google Cloud specific; generalize in due course.
-kubectl config use-context gke_${PROJECT_ID}_${REGION}_${JHUB_CLUSTER}
+# Kubernetes config
+source set_kconfig.sh
 
 # optional autocompletion
 kubectl config set-context $(kubectl config current-context) --namespace ${NAMESPACE:-jhub}
