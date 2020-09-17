@@ -5,9 +5,11 @@ RELEASE=jhub
 NAMESPACE=jhub
 # VM type for running the always-on part of the infrastructure.
 DEFAULT_MACHINE=n1-custom-1-6656
+# VM disk size per node.
 DEFAULT_DISK_SIZE=30Gi
 # VM type for housing the users.
 USER_MACHINE=e2-standard-2
+# VM disk size per node.
 USER_DISK_SIZE=30Gi
 # Maximum number nodes in the cluster.
 MAX_NODES=23

@@ -106,13 +106,7 @@ If you want to scale to more than a few users, you will need to:
 
 ## Storage
 
-See <https://zero-to-jupyterhub.readthedocs.io/en/latest/customizing/user-storage.html>.
-
-Create `StorageClass` for the storage you will use.  Make a file like those in
-`configs` and make the storage class with e.g. `kubectl apply -f
-configs/pd_ssd.yaml`.
-
-Then use named storage in `config.yaml` as noted in link above.
+Follow steps in `./storage.md` to create home directories / data disk, served by NFS.
 
 ## Local Helm
 
@@ -585,16 +579,20 @@ CURRENT   NAME                                           CLUSTER                
 $ kubectl config use-context gke_uob-jupyterhub_europe-west2_jhub-cluster
 ```
 
-## Performance tuning
+## Tuning performance, scaling, cost
 
-See:
+Be careful when scaling.  I had a demo crash catastrophically when more than
+32 or so people tried to log in - see [this discourse thread for some
+excellent help and
+discussion](https://discourse.jupyter.org/t/scheduler-insufficient-memory-waiting-errors-any-suggestions/5314).
 
-* [Performance speedup in
-Kubespawner](https://github.com/jupyterhub/kubespawner/issues/423) (merged
-August 2020).
+See also:
+
 * [Discussion of factors increasing
 resilience](https://discourse.jupyter.org/t/core-component-resilience-reliability/5433).
 * <https://discourse.jupyter.org/t/background-for-jupyterhub-kubernetes-cost-calculations/5289/5>
+
+You can do a preliminary test of scaling by asking for a large number of *user placeholder* pods.  This does some simulation of starting multiple pods at the same time.
 
 For example:
 
@@ -605,7 +603,7 @@ scheduling:
   podPriority:
     enabled: true
   userPlaceholder:
-    # Specify three dummy user pods will be used as placeholders
+    # Specify number of dummy user pods to be used as placeholders
     enabled: true
     replicas: 250
   userPods:
@@ -618,23 +616,69 @@ scheduling:
 
 jupyterhub:
   hub:
+    # See this link for discussion of these options.
+    # https://discourse.jupyter.org/t/core-component-resilience-reliability/5433/4
     activity_resolution: 120  # Default 30
     hub_activity_interval: 600  # Default 300
     last_activity_interval: 300  # Default 300
     init_spawners_timeout: 1  # Default 10
 ```
 
-Good scaling will probably need a Postgres server.
+At time of writing, I also used a devel release of the JupyterHub Helm chart,
+`0.9.0-n233.hcd1eff7a` in order to get an [August 2020 performance fix in the
+KubeSpawner library](https://github.com/jupyterhub/kubespawner/issues/423);
+see [this
+thread](https://discourse.jupyter.org/t/core-component-resilience-reliability/5433/4).
 
-## Debugging scaling
+Very good scaling may need a Postgres server rather than the default SQLite; I
+haven't tried that.
 
-Thanks to Min R-K for pointing me to these.
+Other aspects:
 
-* <https://console.cloud.google.com/iam-admin/quotas>
-* <https://console.cloud.google.com/kubernetes/workload>
+* Make sure you have enough nodes in the user pool - see section: "Upgrade /
+  downgrade number of nodes"
+* Specify minimum memory and CPU requirements carefully.  See [this section of
+  the
+  docs](https://zero-to-jupyterhub.readthedocs.io/en/latest/customizing/user-resources.html#set-user-memory-and-cpu-guarantees-limits).
+  As those docs point out, by default each user is guaranteed 1G of RAM, so
+  each new user will add 1G of required RAM.  This in turn means that fewer
+  users will fit onto one node (VM), and you'll need more VMs, and therefore
+  more money, and more implied CPUs (see below).
+
+Be careful of quotas on your cloud system; see next section.
+
+### Google cloud specifics
+
+Thanks to Min R-K for pointing me to these fixes / links.
+
+* If scaling fails check your [Google quotas
+  page](https://console.cloud.google.com/iam-admin/quotas) to see if you've exhausted some quote, such as CPU, or internal IP addresses.
+* You may well need to increase your CPU quotas on Google Cloud to allow
+  enough nodes.  The number of nodes you need will depend on how many user
+  pods can pack into one node.  You can ask to increase your CPU quota via the
+  quotas page above.
+* You may well need to increase your quota of internal network IP addresses,
+  if you have many pods.  Check the quotas page above.
+* You might try downgrading the machine types on which the cluster runs, from
+  the suggested default of `n1-standard-2`, to save money, but be look out for
+  out-of-memory errors stalling the cluster, in the logs and output of
+  `kubetcl get pod`.  I managed to get down to `n1-custom-1-6656` (1 CPU,
+  6.5GB of RAM), while still scaling to 250 pods, but I couldn't go lower
+  without the cluster stalling.  See `DEFAULT_MACHINE` in `./vars.sh`.
+
+The [Kubernetes workload
+page](https://console.cloud.google.com/kubernetes/workload) can be useful to
+review what the cluster etc is doing.
 
 ## Storage volumes
 
-See <https://discourse.jupyter.org/t/additional-storage-volumes/5012/7>
+I'm using NFS, with a directory for storing home directories, and another for
+storing read-only data.  See `./storage.md` and `./init_nfs.sh`.
 
-Also see <https://github.com/berkeley-dsep-infra/datahub/blob/de634c50046e53dcd88981fcaa37085fae1ee1d9/docs/admins/storage.rst> and matching Datahub / Data8x setup.
+See
+<https://github.com/berkeley-dsep-infra/datahub/blob/de634c5/docs/admins/storage.rst>
+for discussion of NFS.  See also the files there for matching Datahub / Data8x
+setup.
+
+See also discussion at <https://discourse.jupyter.org/t/additional-storage-volumes/5012/7>
+
