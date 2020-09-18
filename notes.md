@@ -41,7 +41,8 @@ gcloud auth login
 maybe followed by:
 
 ```
-CLUSTER=test-cluster  # or whatever
+. vars.sh
+CLUSTER=${JHUB_CLUSTER}  # or whatever
 gcloud container clusters get-credentials $CLUSTER --zone $ZONE
 ```
 
