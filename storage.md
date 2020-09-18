@@ -162,8 +162,6 @@ See also <https://kubernetes.io/docs/tasks/debug-application-cluster/determine-r
 
 ## Single disk procedure
 
-Assumes GCE disk exists named `uobhub-data-disk`:
-
 ```
 # Setup
 kubectl create -f configs/data_volume.yaml
@@ -184,8 +182,6 @@ kubectl delete pv pv-demo
 ```
 
 ## NFS procedure
-
-Assumes GCE disks exist named `uobhub-data-disk` and `uobhub-home-disk`:
 
 ```
 # Setup
