@@ -35,15 +35,20 @@ def is_secret(key, val):
 
 def clean_d(d):
     for k, v in d.items():
+        kL = k.lower()
         if isinstance(v, dict):
             clean_d(v)
             continue
         elif isinstance(v, str) and is_secret(k, v):
             v = rehex(v)
-        elif 'email' in k.lower():
+        elif 'email' in kL:
             v = 'yourname@somewhere.org'
-        elif 'password' in k.lower():
+        elif 'password' in kL:
             v = 'your_secret_password'
+        elif kL == 'clientid' and v.startswith('cilogon:'):
+            parts = v.split('/')
+            parts[-1] = rehex(parts[-1])
+            v = '/'.join(parts)
         d[k] = v
 
 

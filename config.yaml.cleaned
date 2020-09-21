@@ -19,8 +19,9 @@ singleuser:
     # https://hub.docker.com/r/jupyter/datascience-notebook/tags/
     # Inspect the Dockerfile at:
     # https://github.com/jupyter/docker-stacks/tree/master/datascience-notebook/Dockerfile
-    # This image below might be related to:
+    # The image below seems to be the result of `docker build` on
     # https://github.com/berkeley-dsep-infra/datahub/tree/staging/deployments/datahub/images/default
+    # as of commit 258cdbc.
     name: gcr.io/ucb-datahub-2018/workshop-user-image
     tag: 3cd7a6b
   cpu:
@@ -45,12 +46,26 @@ singleuser:
         readOnly: true
 
 auth:
-  type: globus
-  globus:
-    clientId: a0b1c2d3-a0b1-a0b1-a0b1-a0b1c2d3e4f5
-    clientSecret: a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f5
+  type: cilogon
+  cilogon:
+    # See: https://www.cilogon.org/oidc#h.p_PEQXL8QUjsQm
+    clientId: cilogon:/client_id/a0b1c2d3e4f56789a0b1c2d3e4f56789
+    clientSecret: a0b1c2d3e4f56789a0b1c2d3e4f-a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4
     callbackUrl: https://uobhub.org/hub/oauth_callback
-    identityProvider: bham.ac.uk
+
+hub:
+  extraConfig:
+    myAuthConfig: |
+      # Default ePPN username claim works for UoB; no need to force "email",
+      # but do this anyway for consistency.
+      c.CILogonOAuthenticator.username_claim = 'email'
+      c.CILogonOAuthenticator.idp = 'https://idp.bham.ac.uk/shibboleth'
+      # Stripping only works for a single entry in whitelist below.
+      c.CILogonOAuthenticator.strip_idp_domain = True
+      # Will soon be "allowed_idps" (from v0.12 of oauthenticator)
+      c.CILogonOAuthenticator.idp_whitelist = ['bham.ac.uk',
+                                               'student.bham.ac.uk']
+
 
 jupyterhub:
   hub:
