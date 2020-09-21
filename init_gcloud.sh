@@ -8,12 +8,15 @@
 source set_config.sh
 
 # Create the main cluster.
+# Be careful to create a zonal cluster rather than a regional cluster; you get
+# one zonal cluster for free.
+# https://cloud.google.com/kubernetes-engine/pricing
 gcloud container clusters create \
   --machine-type $DEFAULT_MACHINE \
   --num-nodes 2 \
   --cluster-version latest \
   --node-locations $ZONE \
-  --region $REGION \
+  --zone $ZONE \
   --disk-size $DEFAULT_DISK_SIZE \
   $JHUB_CLUSTER
 
@@ -27,7 +30,7 @@ gcloud beta container node-pools create user-pool \
   --node-labels hub.jupyter.org/node-purpose=user \
   --node-taints hub.jupyter.org_dedicated=user:NoSchedule \
   --node-locations $ZONE \
-  --region $REGION \
+  --zone $ZONE \
   --disk-size $USER_DISK_SIZE \
   --cluster $JHUB_CLUSTER
 
