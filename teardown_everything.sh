@@ -15,7 +15,7 @@ kubectl delete pvc nfs-data
 kubectl delete pv nfs-data
 
 kubectl delete namespace $NAMESPACE
-gcloud container clusters delete $JHUB_CLUSTER --region $REGION --quiet
+gcloud container clusters delete $JHUB_CLUSTER --zone $ZONE --quiet
 
 # Check teardown
 ./show_gcloud.sh
