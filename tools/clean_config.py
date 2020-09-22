@@ -61,6 +61,6 @@ clean_d(config)
 
 
 with open('config.yaml.cleaned', 'wt') as fobj:
-    fobj.write('# NB secret values replaced with random equivalents.\n'
-               '# Please check.\n\n')
+    fobj.write('# NB secret values replaced with fake equivalents.\n'
+               '# Please check before commit.\n\n')
     yaml.dump(config, fobj)
