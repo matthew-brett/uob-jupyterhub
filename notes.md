@@ -118,10 +118,6 @@ Install Helm v2 in `$HOME/usr/local/bin` filesystem:
 source ~/.bashrc
 ```
 
-## Authentication
-
-You might want to set up authentication, as below.  I used Globus.
-
 ## Examples
 
 There are various examples of configuration in
@@ -490,15 +486,63 @@ Hmmm.
 See
 <https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/authentication.html#authenticating-with-oauth2>.
 
-Example, for Github.
+### For testing
+
+See e.g. <https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/authentication.html#adding-a-whitelist>
+
+```
+# Anyone can log in with any username and any password.
+auth:
+  type: dummy
+```
+
+or, for a little extra security:
+
+```
+# Anyone can log in with any username, but they must use this password.
+auth:
+  type: dummy
+  dummy:
+    password: 'mypassword'
+```
+
+
+### CILogon authentication
+
+See [Z2JH
+section](https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/authentication.html#cilogon)
+and [the CILogon docs](https://www.cilogon.org/oidc#h.p_PEQXL8QUjsQm).
+
+Go to <https://cilogon.org/oauth2/register> and ask for your JupyterHub client to be registered.  As noted in the CILogon docs above, you should ask for these three scopes: *openid*, *email*, and *org.cilogon.userinfo*.  I found their support to be very quick and helpful.
+
+You might want to restrict authentication providers by specifying one from the
+list at <https://cilogon.org/include/idplist.xml> (see
+`c.CILogonOAuthenticator.idp` below).
+
+Here's a fake version of my eventual config:
 
 ```
 auth:
-  type: github
-  github:
-    clientId: "y0urg1thubc1ient1d"
-    clientSecret: "an0ther1ongs3cretstr1ng"
-    callbackUrl: "http://uobhub.org/hub/oauth_callback"
+  type: cilogon
+  cilogon:
+    # See: https://www.cilogon.org/oidc#h.p_PEQXL8QUjsQm
+    clientId: cilogon:/client_id/a0b1c2d3e4f56789a0b1c2d3e4f56789
+    clientSecret: a0b1c2d3e4f56789a0b1c2d3e4f-a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4
+    callbackUrl: https://uobhub.org/hub/oauth_callback
+
+hub:
+  extraConfig:
+    myAuthConfig: |
+      # Default ePPN username claim works for UoB; no need to force "email",
+      # but do this anyway for consistency.
+      c.CILogonOAuthenticator.username_claim = 'email'
+      c.CILogonOAuthenticator.idp = 'https://idp.bham.ac.uk/shibboleth'
+      # Stripping only works for a single entry in whitelist below.
+      c.CILogonOAuthenticator.strip_idp_domain = True
+      # Will soon be "allowed_idps" (from v0.12 of oauthenticator)
+      c.CILogonOAuthenticator.idp_whitelist = ['bham.ac.uk',
+                                               'student.bham.ac.uk']
+
 ```
 
 ### Globus authentication
@@ -514,17 +558,19 @@ urn:globus:auth:scope:transfer.api.globus.org:all".  I set the callback URL as
 below, and checked "Require that the user has linked an identity ...", and
 "Pre-select a specific identity", both set to my university. I then copied the client id given (see below), and made a new client secret (see below).
 
-Example from [JH, Kubernetes auth for Globus](https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/authentication.html#globus):
+Example adapted from [JH, Kubernetes auth for Globus](https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/authentication.html#globus):
 
 ```
 auth:
   type: globus
   globus:
-    clientId: "y0urc1logonc1ient1d"
-    clientSecret: "an0ther1ongs3cretstr1ng"
-    callbackUrl: "https://<your_jupyterhub_host>/hub/oauth_callback"
-    identityProvider: "youruniversity.edu"
+    clientId: a0b1c2d3-a0b1-a0b1-a0b1-a0b1c2d3e4f5
+    clientSecret: a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f5
+    callbackUrl: https://uobhub.org/hub/oauth_callback
+    identityProvider: bham.ac.uk
 ```
+
+I ran into problems with this auth, for our students, for some reason, so switched to CILogon above.
 
 ## Nbgitpuller
 
