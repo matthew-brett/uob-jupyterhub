@@ -11,6 +11,7 @@ helm upgrade $* \
     --cleanup-on-fail \
     $RELEASE \
     jupyterhub/jupyterhub  \
+    --atomic \
     --timeout 10m0s \
     --namespace=$NAMESPACE \
     --create-namespace \
