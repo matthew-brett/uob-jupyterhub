@@ -1,5 +1,5 @@
-# NB secret values replaced with random equivalents.
-# Please check.
+# NB secret values replaced with fake equivalents.
+# Please check before commit.
 
 # Main uobhub configuration.
 proxy:
@@ -22,8 +22,12 @@ singleuser:
     # The image below seems to be the result of `docker build` on
     # https://github.com/berkeley-dsep-infra/datahub/tree/staging/deployments/datahub/images/default
     # as of commit 258cdbc.
-    name: gcr.io/ucb-datahub-2018/workshop-user-image
-    tag: 3cd7a6b
+    # name: gcr.io/ucb-datahub-2018/workshop-user-image
+    # tag: 3cd7a6b
+    # Custom image based on image above:
+    # https://github.com/matthew-brett/uob-docker
+    name: gcr.io/uob-jupyterhub/uobhub
+    tag: v002
   cpu:
     limit: 4
     guarantee: 0.05
@@ -52,6 +56,9 @@ auth:
     clientId: cilogon:/client_id/a0b1c2d3e4f56789a0b1c2d3e4f56789
     clientSecret: a0b1c2d3e4f56789a0b1c2d3e4f-a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4
     callbackUrl: https://uobhub.org/hub/oauth_callback
+  admin:
+    users:
+    - m.brett@bham.ac.uk
 
 hub:
   extraConfig:
