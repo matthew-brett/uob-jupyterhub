@@ -700,6 +700,8 @@ Thanks to Min R-K for pointing me to these fixes / links.
 
 * If scaling fails check your [Google quotas
   page](https://console.cloud.google.com/iam-admin/quotas) to see if you've exhausted some quota, such as CPU, or internal IP addresses.
+* It may be worth checking
+  [GC monitoring](https://console.cloud.google.com/monitoring).
 * You may well need to increase your CPU quotas on Google Cloud to allow
   enough nodes.  The number of nodes you need will depend on how many user
   pods can pack into one node.  You can ask to increase your CPU quota via the
