@@ -34,5 +34,8 @@ gcloud beta container node-pools create user-pool \
   --disk-size $USER_DISK_SIZE \
   --cluster $JHUB_CLUSTER
 
+# Set Kubernetes credentials to this cluster
+gcloud container clusters get-credentials $JHUB_CLUSTER --zone $ZONE
+
 echo Next run
 echo source init_kubernetes.sh
