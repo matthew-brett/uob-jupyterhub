@@ -7,6 +7,10 @@ spec:
     storage: 1Mi
   accessModes:
     - ReadOnlyMany
+  mountOptions:
+    - soft
+    - noatime
+    - vers=4.2
   nfs:
     # FIXED: Use internal DNS name
     server: nfs-server.${NAMESPACE}.svc.cluster.local
