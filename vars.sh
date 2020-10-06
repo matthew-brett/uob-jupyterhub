@@ -4,7 +4,7 @@ JHUB_CLUSTER=jhub-cluster
 RELEASE=jhub
 NAMESPACE=jhub
 # VM type for running the always-on part of the infrastructure.
-DEFAULT_MACHINE=n1-custom-1-6656
+DEFAULT_MACHINE=n1-standard-2
 # VM disk size per node.
 DEFAULT_DISK_SIZE=30Gi
 # VM type for housing the users.
