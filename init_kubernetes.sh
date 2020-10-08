@@ -12,15 +12,6 @@ kubectl create clusterrolebinding cluster-admin-binding \
   --clusterrole=cluster-admin \
   --user=$EMAIL
 
-# Next two lines orphaned by upgrade to Helm3
-# See commit 046b07c in zero-to-jupyterhub-k8s
-# Remove these before next cluster startup.
-# Set up a ServiceAccount for use by tiller.
-kubectl --namespace kube-system create serviceaccount tiller
-
-# Give the ServiceAccount full permissions to manage the cluster.
-kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
-
 # Initialize storage classes for SSD and standard storage
 # https://zero-to-jupyterhub.readthedocs.io/en/latest/customizing/user-storage.html
 # Needed for config.yaml setting of storage
