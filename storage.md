@@ -14,13 +14,15 @@ DISK_NAME=${CLUSTER_DISK}
 # https://cloud.google.com/compute/docs/gcloud-compute#set_default_zone_and_region_in_your_local_client
 gcloud config set compute/zone $ZONE
 gcloud config set compute/region $REGION
+gcloud config set project $PROJECT_ID
 ```
 
 ```
 # Create the disk
 # Size minimum is 10GB
+SIZE=200GB
 gcloud compute disks create \
-    --size=200GB \
+    --size=$SIZE \
     --zone $ZONE \
     --type pd-standard \
     ${DISK_NAME}
@@ -31,20 +33,21 @@ gcloud compute disks list
 ```
 # Create an instance
 . vars.sh
+MACHINE=test-machine
 gcloud compute instances create \
-    test-machine \
+    $MACHINE \
     --image debian-10-buster-v20200910 \
     --image-project debian-cloud \
     --machine-type=g1-small \
     --zone $ZONE
 
-gcloud compute instances describe test-machine
+gcloud compute instances describe $MACHINE
 ```
 
 ```
 # Attach the disk
 gcloud compute instances attach-disk \
-    test-machine \
+    $MACHINE \
     --disk ${DISK_NAME}
 ```
 
@@ -52,7 +55,6 @@ Now follow instructions at <https://cloud.google.com/compute/docs/disks/add-pers
 
 ```
 # SSH into instance
-MACHINE=test-machine
 gcloud beta compute ssh --zone $ZONE $MACHINE --project $PROJECT_ID
 ```
 
@@ -91,7 +93,7 @@ sudo chmod a+rw 2020-homes
 Teardown instance:
 
 ```
-gcloud compute instances delete test-machine --quiet
+gcloud compute instances delete $MACHINE
 ```
 
 ## Resize disk
