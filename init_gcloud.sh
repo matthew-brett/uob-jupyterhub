@@ -34,5 +34,10 @@ gcloud beta container node-pools create user-pool \
   --disk-size $USER_DISK_SIZE \
   --cluster $JHUB_CLUSTER
 
+# Give your account permissions to perform all administrative actions needed.
+kubectl create clusterrolebinding cluster-admin-binding \
+  --clusterrole=cluster-admin \
+  --user=$EMAIL
+
 echo Next run
-echo source init_kubernetes.sh
+echo source setup_helm.sh
