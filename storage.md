@@ -118,6 +118,31 @@ gcloud compute snapshots list
 ```
 DISK_NAME=${CLUSTER_DISK}
 gcloud compute disks snapshot $DISK_NAME \
+. vars.sh
+DISK_NAME=${CLUSTER_DISK}
+gcloud compute disks snapshot $DISK_NAME --zone $ZONE
+```
+
+Consider
+[schedule](https://cloud.google.com/compute/docs/disks/scheduled-snapshots)
+such as:
+
+```
+SCHEDULE_NAME=daily-uob
+gcloud compute resource-policies create snapshot-schedule \
+    $SCHEDULE_NAME \
+    --description "Daily backups of UoBhub disk" \
+    --max-retention-days 14 \
+    --start-time 04:00 \
+    --daily-schedule
+```
+
+Follow with:
+
+```
+# Attach schedule to disk
+gcloud compute disks add-resource-policies ${DISK_NAME} \
+    --resource-policies ${SCHEDULE_NAME} \
     --zone $ZONE
 ```
 
