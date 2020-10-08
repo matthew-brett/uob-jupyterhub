@@ -17,7 +17,8 @@ MAX_NODES=23
 # https://discourse.jupyter.org/t/trouble-getting-https-letsencrypt-working-with-0-9-0-beta-4/3583/5?u=matthew.brett
 # and
 # https://jupyterhub.github.io/helm-chart/
-JHUB_VERSION="0.9.0-n233.hcd1eff7a"
+# From datahub commit 8274c5f
+JHUB_VERSION="0.9.0-n290.hdea5cf1b"
 # Region on which the cluster will run; see notes
 REGION=europe-west2
 # Zone within region; see notes
