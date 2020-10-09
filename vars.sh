@@ -24,7 +24,6 @@ REGION=europe-west2
 # Zone within region; see notes
 ZONE=europe-west2-b
 EMAIL=matthew.brett@gmail.com
-UOBHUB_IP=35.189.82.198
 # Dataset to which billing information will be written
 # See the Google Cloud Billing Export pane for detail; enable daily cost
 # detail, and set up / name dataset there.
