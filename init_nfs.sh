@@ -8,13 +8,22 @@ source set_config.sh
 kubectl create namespace $NAMESPACE
 
 # Set up NFS server
-# Complete YaML files with variables from vars.sh,
-# pass to kubectl create
-./tools/kube_tpl_create.sh nfs-configs/nfs_deployment_tpl.yaml
+# Complete YaML files with env vars.
+export CLUSTER_DISK
+envsubst < nfs-configs/nfs_deployment_tpl.yaml | kubectl create -f -
+
 kubectl create -f nfs-configs/nfs_service.yaml
+
 # Set up PV, PVC for home dirs and data directory.
-./tools/kube_tpl_create.sh nfs-configs/nfs_pv_pvc_tpl.yaml
-./tools/kube_tpl_create.sh nfs-configs/nfs_pv_pvc_data_tpl.yaml
+export NAMESPACE
+export NFS_PV_NAME="nfs"
+export NFS_DISK_PATH=$HOME_PATH
+export NFS_ACCESS_MODE=ReadWriteMany
+envsubst < nfs-configs/nfs_pv_pvc_tpl.yaml | kubectl create -f -
+export NFS_PV_NAME="nfs-data"
+export NFS_DISK_PATH=$DATA_PATH
+export NFS_ACCESS_MODE=ReadOnlyMany
+envsubst < nfs-configs/nfs_pv_pvc_tpl.yaml | kubectl create -f -
 
 echo Next run
 echo source configure_jhub.sh
