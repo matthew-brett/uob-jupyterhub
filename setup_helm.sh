@@ -7,7 +7,7 @@ source set_config.sh
 source set_kconfig.sh
 
 # optional autocompletion
-kubectl config set-context $(kubectl config current-context) --namespace ${NAMESPACE:-jhub}
+kubectl config set-context $(kubectl config current-context) --namespace ${NAMESPACE}
 
 # Check correct version of helm is installed
 HELM_VER=$(helm version --short)
