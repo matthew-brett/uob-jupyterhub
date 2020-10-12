@@ -43,7 +43,7 @@ maybe followed by:
 ```
 . vars.sh
 CLUSTER=${JHUB_CLUSTER}  # or whatever
-gcloud container clusters get-credentials $CLUSTER --region $REGION
+gcloud container clusters get-credentials $CLUSTER --zone $ZONE
 ```
 
 <https://stackoverflow.com/a/57592322/1939576>
