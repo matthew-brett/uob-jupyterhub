@@ -21,10 +21,11 @@ gcloud config set project $PROJECT_ID
 # Create the disk
 # Size minimum is 10GB
 SIZE=200GB
+STORAGE_TYPE="pd-ssd"
 gcloud compute disks create \
     --size=$SIZE \
     --zone $ZONE \
-    --type pd-standard \
+    --type ${STORAGE_TYPE} \
     ${DISK_NAME}
 
 gcloud compute disks list
