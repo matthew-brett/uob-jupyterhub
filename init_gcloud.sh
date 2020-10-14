@@ -11,13 +11,17 @@ source set_config.sh
 # Be careful to create a zonal cluster rather than a regional cluster; you get
 # one zonal cluster for free.
 # https://cloud.google.com/kubernetes-engine/pricing
+# Surge values are default; recording here for completeness.
+# https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-upgrades
 gcloud container clusters create \
   --machine-type $DEFAULT_MACHINE \
-  --num-nodes 2 \
+  --num-nodes 1 \
   --cluster-version latest \
   --node-locations $ZONE \
   --zone $ZONE \
   --disk-size $DEFAULT_DISK_SIZE \
+  --max-surge-upgrade 1 \
+  --max-unavailable-upgrade 0 \
   $JHUB_CLUSTER
 
 # Optional - create a special user cluster.

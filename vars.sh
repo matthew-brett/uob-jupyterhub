@@ -4,9 +4,11 @@ JHUB_CLUSTER=jhub-cluster-testing
 RELEASE=jhub-testing
 NAMESPACE=jhub-testing
 # VM type for running the always-on part of the infrastructure.
-DEFAULT_MACHINE=n1-standard-2
+# 2 CPUs, 13GB memory.
+# https://gitter.im/jupyterhub/jupyterhub?at=5f86fb48a1c81d0a7ee084af
+DEFAULT_MACHINE=n1-custom-2-13312
 # VM disk size per node.
-DEFAULT_DISK_SIZE=30Gi
+DEFAULT_DISK_SIZE=50Gi
 # VM type for housing the users.
 USER_MACHINE=e2-standard-2
 # VM disk size per node.
@@ -17,7 +19,7 @@ MAX_NODES=23
 # https://discourse.jupyter.org/t/trouble-getting-https-letsencrypt-working-with-0-9-0-beta-4/3583/5?u=matthew.brett
 # and
 # https://jupyterhub.github.io/helm-chart/
-# From datahub commit be8edd1
+# From datahub commit be8edd1 (2020-10-09).
 JHUB_VERSION="0.9.0-n335.hcc6c02d3"
 # Region on which the cluster will run; see notes
 REGION=europe-west2
