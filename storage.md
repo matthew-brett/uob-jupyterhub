@@ -240,6 +240,43 @@ kubectl delete pvc nfs
 kubectl delete pv nfs
 ```
 
+## Optimizing
+
+Thanks to Yaroslav Naumenko from [Ancoris](https://www.ancoris.com) for
+pointing me at the information below, and helping me working through the
+implications.
+
+See <https://cloud.google.com/compute/docs/disks> and
+<https://cloud.google.com/compute/docs/disks/performance>.
+
+Persistent disks (SD) are much slower than persistent SSD (SSD) for
+IOPS.  There's an intermediate option called "balanced" persistent disks (BD).
+
+For a containing VM with 1 CPU and a 100GB disk, maximum IOPS appears to be limited by disk size. Here are the maximum read IOPS for the disk types. Because the maximum is constrained by disk size, IOPS is a simple linear function of disk size.
+
+* 100GB SD : 0.75 / GB = 75 (!)
+* 100GB BD : 6 / GB = 600
+* 100GB SSD : 30 / GB = 3000
+
+Yes, that's a factor of 40 speed-up for SSD compared to SD, at least,
+potentially.
+
+It looks like the number of CPUs on the VM starts to become a factor when the
+disks become large enough to allow fairly high IOPS.
+
+For N1 machines, SDs run a little faster with >7 CPUs, once your disk gets to
+3000 IOPS GB constraint - but that's a 4TB disk, and you'll get a maximum 66%
+speedup for your 8 CPUs when you reach 6.66TB.
+
+For N1 machines and SSDs, you only get an IOPS speedup when you reach 16 CPUs, and a disk constraint of 15,000 IOPS - 500GB.
+
+## Moving over to another disk
+
+[Snapshots won't work when new disk is smaller than
+original](https://cloud.google.com/compute/docs/disks/restore-and-delete-snapshots).
+Will have to shutdown cluster, create new disk, format, mount, then mount the
+original disk, and rsync copy.
+
 ## Finally
 
 ```
