@@ -15,7 +15,7 @@ source set_config.sh
 # https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-upgrades
 gcloud container clusters create \
   --machine-type $DEFAULT_MACHINE \
-  --num-nodes 1 \
+  --num-nodes ${DEFAULT_NODES} \
   --cluster-version latest \
   --node-locations $ZONE \
   --zone $ZONE \
