@@ -29,10 +29,10 @@ gcloud container clusters create \
 if [ ${USER_POOL:-1} -ne 0 ]; then
     gcloud container node-pools create user-pool \
     --machine-type $USER_MACHINE \
-    --num-nodes 0 \
+    --num-nodes ${USER_MIN_NODES:-0} \
     --enable-autoscaling \
-    --min-nodes 0 \
-    --max-nodes $USER_MAX_NODES \
+    --min-nodes ${USER_MIN_NODES:-0} \
+    --max-nodes ${USER_MAX_NODES:-23} \
     --node-labels hub.jupyter.org/node-purpose=user \
     --node-taints hub.jupyter.org_dedicated=user:NoSchedule \
     --node-locations $ZONE \
