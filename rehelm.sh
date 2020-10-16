@@ -1,9 +1,10 @@
 #!/bin/sh
 # Reset helm chart for cluster
 # Start call to helm upgrade with any passed arguments
-if [ -z "$JHUB_VERSION" ]; then
-    . vars.sh
-fi
+# Depends on:
+#   vars.sh (via set_config.sh)
+source set_config.sh
+
 # Timeout from:
 # https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/optimization.html#pulling-images-before-users-arrive
 # Allows pre-pulling of new Docker images on install / upgrade.
