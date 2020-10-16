@@ -4,17 +4,26 @@ JHUB_CLUSTER=jhub-cluster-testing
 RELEASE=jhub-testing
 NAMESPACE=jhub-testing
 # VM type for running the always-on part of the infrastructure.
-# 2 CPUs, 13GB memory.
+# May be able to get away with one machine.
 # https://gitter.im/jupyterhub/jupyterhub?at=5f86fb48a1c81d0a7ee084af
-DEFAULT_MACHINE=n1-custom-2-13312
-# VM disk size per node.
-DEFAULT_DISK_SIZE=50Gi
+DEFAULT_MACHINE=n1-standard-4
+# Number of nodes running core
+DEFAULT_NODES=1
+# VM disk size per node, default pool.
+DEFAULT_DISK_SIZE=30Gi
+# VM disk type for default pool.
+DEFAULT_DISK_TYPE=pd-ssd
+# Whether to save a separate user pool.
+# If 0, all USER_* vars ignored below.
+USER_POOL=1
 # VM type for housing the users.
 USER_MACHINE=e2-standard-2
 # VM disk size per node.
 USER_DISK_SIZE=30Gi
 # Maximum number nodes in the cluster.
-MAX_NODES=23
+USER_MAX_NODES=23
+# VM disk type for user pool.
+USER_DISK_TYPE=pd-standard
 # Helm chart for JupyterHub / Kubernetes. See:
 # https://discourse.jupyter.org/t/trouble-getting-https-letsencrypt-working-with-0-9-0-beta-4/3583/5?u=matthew.brett
 # and

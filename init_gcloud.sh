@@ -19,24 +19,28 @@ gcloud container clusters create \
   --cluster-version latest \
   --node-locations $ZONE \
   --zone $ZONE \
-  --disk-size $DEFAULT_DISK_SIZE \
+  --disk-size ${DEFAULT_DISK_SIZE:-30Gi} \
+  --disk-type ${DEFAULT_DISK_TYPE:-pd-standard} \
   --max-surge-upgrade 1 \
   --max-unavailable-upgrade 0 \
   $JHUB_CLUSTER
 
 # Optional - create a special user cluster.
-gcloud beta container node-pools create user-pool \
-  --machine-type $USER_MACHINE \
-  --num-nodes 0 \
-  --enable-autoscaling \
-  --min-nodes 0 \
-  --max-nodes $MAX_NODES \
-  --node-labels hub.jupyter.org/node-purpose=user \
-  --node-taints hub.jupyter.org_dedicated=user:NoSchedule \
-  --node-locations $ZONE \
-  --zone $ZONE \
-  --disk-size $USER_DISK_SIZE \
-  --cluster $JHUB_CLUSTER
+if [ ${USER_POOL:-1} -ne 0 ]; then
+    gcloud container node-pools create user-pool \
+    --machine-type $USER_MACHINE \
+    --num-nodes 0 \
+    --enable-autoscaling \
+    --min-nodes 0 \
+    --max-nodes $USER_MAX_NODES \
+    --node-labels hub.jupyter.org/node-purpose=user \
+    --node-taints hub.jupyter.org_dedicated=user:NoSchedule \
+    --node-locations $ZONE \
+    --zone $ZONE \
+    --disk-size ${USER_DISK_SIZE:-30Gi} \
+    --disk-type ${USER_DISK_TYPE:-pd-standard} \
+    --cluster $JHUB_CLUSTER
+fi
 
 # Give your account permissions to perform all administrative actions needed.
 kubectl create clusterrolebinding cluster-admin-binding \
