@@ -13,7 +13,7 @@ helm upgrade $* \
     $RELEASE \
     jupyterhub/jupyterhub  \
     --atomic \
-    --timeout 10m0s \
+    --timeout 15m0s \
     --namespace=$NAMESPACE \
     --create-namespace \
     --version=$JHUB_VERSION \
