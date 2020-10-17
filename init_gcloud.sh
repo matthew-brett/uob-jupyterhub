@@ -39,5 +39,8 @@ kubectl create clusterrolebinding cluster-admin-binding \
   --clusterrole=cluster-admin \
   --user=$EMAIL
 
+# Set Kubernetes credentials to this cluster
+gcloud container clusters get-credentials $JHUB_CLUSTER --zone $ZONE
+
 echo Next run
 echo source setup_helm.sh
