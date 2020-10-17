@@ -6,7 +6,7 @@ NAMESPACE=jhub-testing
 # VM type for running the always-on part of the infrastructure.
 # May be able to get away with one machine.
 # https://gitter.im/jupyterhub/jupyterhub?at=5f86fb48a1c81d0a7ee084af
-DEFAULT_MACHINE=n1-standard-2
+DEFAULT_MACHINE=n1-standard-4
 # Number of nodes running core
 DEFAULT_NODES=1
 # VM disk size per node, default pool.
@@ -21,9 +21,9 @@ USER_MACHINE=e2-highmem-16
 # VM disk size per node.
 USER_DISK_SIZE=30Gi
 # Minimum number of nodes in the user cluster.
-USER_MIN_NODES=4
+USER_MIN_NODES=6
 # Maximum number of nodes in the user cluster.
-USER_MAX_NODES=6
+USER_MAX_NODES=8
 # VM disk type for user pool.
 USER_DISK_TYPE=pd-ssd
 # Helm chart for JupyterHub / Kubernetes. See:
