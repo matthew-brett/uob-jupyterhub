@@ -25,5 +25,8 @@ export NFS_DISK_PATH=$DATA_PATH
 export NFS_ACCESS_MODE=ReadOnlyMany
 envsubst < nfs-configs/nfs_pv_pvc_tpl.yaml | kubectl create -f -
 
+sleep 4
+. show_pods.sh
+
 echo Next run
 echo source configure_jhub.sh
