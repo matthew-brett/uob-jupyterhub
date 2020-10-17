@@ -6,7 +6,7 @@ NAMESPACE=jhub-testing
 # VM type for running the always-on part of the infrastructure.
 # May be able to get away with one machine.
 # https://gitter.im/jupyterhub/jupyterhub?at=5f86fb48a1c81d0a7ee084af
-DEFAULT_MACHINE=n1-standard-4
+DEFAULT_MACHINE=n1-standard-2
 # Number of nodes running core
 DEFAULT_NODES=1
 # VM disk size per node, default pool.
