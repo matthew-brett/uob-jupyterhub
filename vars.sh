@@ -1,8 +1,8 @@
 # Source this file.
-PROJECT_ID=uob-jupyterhub
-JHUB_CLUSTER=jhub-cluster
-RELEASE=jhub
-NAMESPACE=jhub
+PROJECT_ID=uob-testing
+JHUB_CLUSTER=jhub-cluster-testing
+RELEASE=jhub-testing
+NAMESPACE=jhub-testing
 # VM type for running the always-on part of the infrastructure.
 # May be able to get away with one machine.
 # https://gitter.im/jupyterhub/jupyterhub?at=5f86fb48a1c81d0a7ee084af
@@ -42,6 +42,6 @@ EMAIL=matthew.brett@gmail.com
 # detail, and set up / name dataset there.
 RESOURCE_DATASET=uob_jupyterhub_billing
 # Disk for data and homes
-CLUSTER_DISK=jhub-home-data-ssd
+CLUSTER_DISK=jhub-testing-home-data
 HOME_PATH=/2020-homes/
 DATA_PATH=/data/
