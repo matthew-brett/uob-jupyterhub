@@ -29,6 +29,6 @@ EMAIL=matthew.brett@gmail.com
 # detail, and set up / name dataset there.
 RESOURCE_DATASET=uob_jupyterhub_billing
 # Disk for data and homes
-CLUSTER_DISK=jhub-home-data
+CLUSTER_DISK=jhub-home-data-ssd
 HOME_PATH=/2020-homes/
 DATA_PATH=/data/
