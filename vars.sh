@@ -17,13 +17,13 @@ DEFAULT_DISK_TYPE=pd-ssd
 # If 0, all USER_* vars ignored below.
 USER_POOL=1
 # VM type for housing the users.
-USER_MACHINE=e2-standard-2
+USER_MACHINE=e2-highmem-2
 # VM disk size per node.
 USER_DISK_SIZE=30Gi
 # Minimum number of nodes in the user cluster.
 USER_MIN_NODES=0
 # Maximum number of nodes in the user cluster.
-USER_MAX_NODES=30
+USER_MAX_NODES=45
 # VM disk type for user pool.
 USER_DISK_TYPE=pd-standard
 # Helm chart for JupyterHub / Kubernetes. See:
