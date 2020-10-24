@@ -17,4 +17,4 @@ helm upgrade $* \
     --namespace=$NAMESPACE \
     --create-namespace \
     --version=$JHUB_VERSION \
-    --values ${CONFIG_YAML}
+    --values ${CONFIG_YAML:-config.yaml}
