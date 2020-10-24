@@ -23,15 +23,15 @@ USER_DISK_SIZE=30Gi
 # Minimum number of nodes in the user cluster.
 USER_MIN_NODES=0
 # Maximum number of nodes in the user cluster.
-USER_MAX_NODES=45
+USER_MAX_NODES=50
 # VM disk type for user pool.
 USER_DISK_TYPE=pd-standard
 # Helm chart for JupyterHub / Kubernetes. See:
 # https://discourse.jupyter.org/t/trouble-getting-https-letsencrypt-working-with-0-9-0-beta-4/3583/5?u=matthew.brett
 # and
 # https://jupyterhub.github.io/helm-chart/
-# From datahub commit be8edd1 (2020-10-09).
-JHUB_VERSION="0.9.0-n335.hcc6c02d3"
+# datahub commit be8edd1 (2020-10-09) has 0.9.0-n335.hcc6c02d3
+JHUB_VERSION="0.10.0-beta.1"
 # Region on which the cluster will run; see notes
 REGION=europe-west2
 # Zone within region; see notes
