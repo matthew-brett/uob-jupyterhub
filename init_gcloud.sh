@@ -19,6 +19,7 @@ gcloud container clusters create \
   --cluster-version latest \
   --node-locations $ZONE \
   --zone $ZONE \
+  --project ${PROJECT_ID} \
   --disk-size ${DEFAULT_DISK_SIZE:-30Gi} \
   --disk-type ${DEFAULT_DISK_TYPE:-pd-standard} \
   --max-surge-upgrade 1 \
@@ -37,6 +38,7 @@ if [ ${USER_POOL:-1} -ne 0 ]; then
     --node-taints hub.jupyter.org_dedicated=user:NoSchedule \
     --node-locations $ZONE \
     --zone $ZONE \
+    --project ${PROJECT_ID} \
     --disk-size ${USER_DISK_SIZE:-30Gi} \
     --disk-type ${USER_DISK_TYPE:-pd-standard} \
     --cluster $JHUB_CLUSTER
