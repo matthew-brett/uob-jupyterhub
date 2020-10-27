@@ -23,7 +23,7 @@ USER_DISK_SIZE=30Gi
 # Minimum number of nodes in the user cluster.
 USER_MIN_NODES=0
 # Maximum number of nodes in the user cluster.
-USER_MAX_NODES=30
+USER_MAX_NODES=50
 # VM disk type for user pool.
 USER_DISK_TYPE=pd-standard
 # Helm chart for JupyterHub / Kubernetes. See:

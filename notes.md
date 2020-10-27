@@ -602,13 +602,18 @@ command](https://cloud.google.com/sdk/gcloud/reference/container/clusters/update
 
 ```
 . vars.sh
-gcloud beta container node-pools update user-pool --region=$REGION --cluster=${JHUB_CLUSTER} --max-nodes=50
+gcloud container node-pools update user-pool \
+   --zone=$ZONE \
+   --cluster=${JHUB_CLUSTER}\
+   --max-nodes=50
 ```
 
 Show the change:
 
 ```
-gcloud beta container node-pools describe user-pool --region=$REGION --cluster=${JHUB_CLUSTER}
+gcloud container node-pools describe user-pool \
+    --zone=$ZONE \
+    --cluster=${JHUB_CLUSTER}
 ```
 
 ## Contexts
