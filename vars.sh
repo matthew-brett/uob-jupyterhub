@@ -1,5 +1,5 @@
 # Source this file.
-CONFIG_YAML=config.yaml.testing
+CONFIG_YAML=jh-secrets/config.yaml.testing
 PROJECT_ID=uob-testing
 JHUB_CLUSTER=jhub-cluster-testing
 RELEASE=jhub-testing

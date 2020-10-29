@@ -1,0 +1,3 @@
+[submodule "jh-secrets"]
+	path = jh-secrets
+	url = badmac:repos/jh-secrets.git
