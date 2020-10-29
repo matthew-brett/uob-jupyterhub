@@ -120,9 +120,7 @@ gcloud compute snapshots list
 
 ```
 DISK_NAME=${CLUSTER_DISK}
-gcloud compute disks snapshot $DISK_NAME \
 . vars.sh
-DISK_NAME=${CLUSTER_DISK}
 gcloud compute disks snapshot $DISK_NAME --zone $ZONE
 ```
 
@@ -131,10 +129,10 @@ Consider
 such as:
 
 ```
-SCHEDULE_NAME=daily-uob
+SCHEDULE_NAME=daily-${DISK_NAME}
 gcloud compute resource-policies create snapshot-schedule \
     $SCHEDULE_NAME \
-    --description "Daily backups of UoBhub disk" \
+    --description "Daily backups of ${DISK_NAME} disk" \
     --max-retention-days 14 \
     --start-time 04:00 \
     --daily-schedule
