@@ -286,3 +286,31 @@ gcloud compute instances list
 cluster_uri=$(gcloud container clusters list --uri)
 gcloud container clusters delete $cluster_uri --quiet
 ```
+
+## Moving stuff from disk to disk
+
+Do as above with the new disk.  Then:
+
+```
+OLD_DISK=jhub-home-data
+# Attach the disk
+gcloud compute instances attach-disk \
+    $MACHINE \
+    --disk $OLD_DISK
+```
+
+Mount the old disk:
+
+```
+OLD_DEVICE=<what you found with sudo lsblk>
+OLD_MNT_POINT=/mnt/disks/old-data
+sudo mkdir -p $OLD_MNT_POINT
+sudo mount -o discard,defaults /dev/$OLD_DEVICE $OLD_MNT_POINT
+```
+
+You can then `sudo apt install rsync` and something like:
+
+```
+cd /mnt/disks
+sudo rsync -aAXv old-data/ data/
+```

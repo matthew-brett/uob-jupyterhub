@@ -1,8 +1,9 @@
 # Source this file.
-PROJECT_ID=uob-jupyterhub
-JHUB_CLUSTER=jhub-cluster
-RELEASE=jhub
-NAMESPACE=jhub
+CONFIG_YAML=jh-secrets/config.yaml.testing
+PROJECT_ID=uob-testing
+JHUB_CLUSTER=jhub-cluster-testing
+RELEASE=jhub-testing
+NAMESPACE=jhub-testing
 # VM type for running the always-on part of the infrastructure.
 # May be able to get away with one machine.
 # https://gitter.im/jupyterhub/jupyterhub?at=5f86fb48a1c81d0a7ee084af
@@ -30,8 +31,8 @@ USER_DISK_TYPE=pd-standard
 # https://discourse.jupyter.org/t/trouble-getting-https-letsencrypt-working-with-0-9-0-beta-4/3583/5?u=matthew.brett
 # and
 # https://jupyterhub.github.io/helm-chart/
-# From datahub commit be8edd1 (2020-10-09).
-JHUB_VERSION="0.9.0-n335.hcc6c02d3"
+# datahub commit be8edd1 (2020-10-09) has 0.9.0-n335.hcc6c02d3
+JHUB_VERSION="0.10.0-beta.1"
 # Region on which the cluster will run; see notes
 REGION=europe-west2
 # Zone within region; see notes
@@ -42,6 +43,6 @@ EMAIL=matthew.brett@gmail.com
 # detail, and set up / name dataset there.
 RESOURCE_DATASET=uob_jupyterhub_billing
 # Disk for data and homes
-CLUSTER_DISK=jhub-home-data-ssd
+CLUSTER_DISK=jhub-testing-home-data
 HOME_PATH=/2020-homes/
 DATA_PATH=/data/

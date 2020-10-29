@@ -5,11 +5,18 @@
 #   config.yaml
 . set_config.sh
 
-helm delete $RELEASE
+echo "Deleting $RELEASE on $JHUB_CLUSTER".
+read -n1 -r -p "Press y to continue, any other key to cancel." key
 
-kubectl delete namespace $NAMESPACE
+if [ "$key" = 'y' ]; then
+    helm delete $RELEASE
 
-gcloud container clusters delete $JHUB_CLUSTER --zone $ZONE --quiet
+    kubectl delete namespace $NAMESPACE
 
-# Check teardown
-./show_gcloud.sh
+    gcloud container clusters delete $JHUB_CLUSTER --zone $ZONE --quiet
+
+    # Check teardown
+    ./show_gcloud.sh
+else
+    echo "Cancelled"
+fi

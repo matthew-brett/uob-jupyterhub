@@ -25,8 +25,15 @@ export NFS_DISK_PATH=$DATA_PATH
 export NFS_ACCESS_MODE=ReadOnlyMany
 envsubst < nfs-configs/nfs_pv_pvc_tpl.yaml | kubectl create -f -
 
-sleep 4
-. show_pods.sh
+# Wait for pod to start
+echo Control-C to stop this loop if it does not return.
+while :
+do
+    echo 'Checking if pod is running'
+    pod_running=$(kubectl get pods -o custom-columns=POD:metadata.name,STATUS:status.phase | grep nfs-server | grep Running)
+    if [ -n "$pod_running" ]; then break; fi
+    sleep 2
+done
 
 echo Next run
 echo source configure_jhub.sh
