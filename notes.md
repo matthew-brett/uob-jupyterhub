@@ -452,18 +452,24 @@ singleuser:
 
 Don't forget the tag!
 
-I started using:
+**Make sure that the JupyterHub version installed on the Docker image is the same as the JupyterHub version in the current Helm chart**.  Otherwise stuff will go wrong.
+
+I am now using custom images, based on the Dockerfile at
+<https://github.com/berkeley-dsep-infra/datahub/tree/staging/deployments/datahub/images/default>.
+See <https://github.com/matthew-brett/uob-docker> for Dockerfiles etc.
+I upload to the Google Container Registry, in the EU, on the perhaps mistaken
+belief that ingress costs and image pull time will be less for my UK zone
+cluster.
 
 ```
-    name: gcr.io/ucb-datahub-2018/workshop-user-image
-    tag: 3cd7a6b
+    name: eu.gcr.io/uob-jupyterhub/r-minimal-python
+    tag: e81a589
 ```
 
-I believe this is none other than the result of `docker build`ing
-`deployments/datahub/images/default` from
-<https://github.com/berkeley-dsep-infra/datahub> `staging` branch, as of
-`258cdbc`.  I had to disable the JupyterLab stuff at the end, as it was
-causing an error.
+My docker files are relatively small, at about 3.5GB, compared to, for example,
+the current Berkeley Datahub image, which is 9GB or so.  My images have the
+same RStudio install as the Berkeley images, but a much more minimal Python
+install.
 
 ## Logging, login
 
