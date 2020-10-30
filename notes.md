@@ -467,10 +467,11 @@ that ingress costs and image pull time will be less for my UK zone cluster.
     tag: e81a589
 ```
 
-My docker files are relatively small, at about 3.5GB, compared to, for example,
-the current Berkeley Datahub image, which is 9GB or so.  My images have the
-same RStudio install as the Berkeley images, but a much more minimal Python
-install.
+My docker files are relatively small, at uncompressed (compressed) size of
+3.5GB (1.1GB), compared to, for example, the current Berkeley Datahub image,
+which is 9.1GB (3.2 GB).  My images have the same RStudio install as the
+Berkeley images, but a much more minimal Python install.  Compressed sizes are
+from e.g <https://console.cloud.google.com/gcr/images/ucb-datahub-2018>.
 
 ## Logging, login
 
