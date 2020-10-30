@@ -452,14 +452,15 @@ singleuser:
 
 Don't forget the tag!
 
-**Make sure that the JupyterHub version installed on the Docker image is the same as the JupyterHub version in the current Helm chart**.  Otherwise stuff will go wrong.
+**Make sure that the JupyterHub version installed on the Docker image is the
+same as the JupyterHub version in the current Helm chart**.  Otherwise stuff
+will go wrong.
 
 I am now using custom images, based on the Dockerfile at
 <https://github.com/berkeley-dsep-infra/datahub/tree/staging/deployments/datahub/images/default>.
-See <https://github.com/matthew-brett/uob-docker> for Dockerfiles etc.
-I upload to the Google Container Registry, in the EU, on the perhaps mistaken
-belief that ingress costs and image pull time will be less for my UK zone
-cluster.
+See <https://github.com/matthew-brett/uob-docker> for Dockerfiles etc. I upload
+to the Google Container Registry, in the EU, on the perhaps mistaken belief
+that ingress costs and image pull time will be less for my UK zone cluster.
 
 ```
     name: eu.gcr.io/uob-jupyterhub/r-minimal-python
