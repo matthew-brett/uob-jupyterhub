@@ -26,13 +26,13 @@ export NFS_ACCESS_MODE=ReadOnlyMany
 envsubst < nfs-configs/nfs_pv_pvc_tpl.yaml | kubectl create -f -
 
 # Wait for pod to start
-echo Control-C to stop this loop if it does not return.
+echo Control-C to stop this loop if it does not return in 30s or so.
 while :
 do
+    sleep 5
     echo 'Checking if pod is running'
     pod_running=$(kubectl get pods -o custom-columns=POD:metadata.name,STATUS:status.phase | grep nfs-server | grep Running)
     if [ -n "$pod_running" ]; then break; fi
-    sleep 2
 done
 
 echo Next run
