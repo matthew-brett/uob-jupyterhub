@@ -31,8 +31,7 @@ USER_DISK_TYPE=pd-standard
 # https://discourse.jupyter.org/t/trouble-getting-https-letsencrypt-working-with-0-9-0-beta-4/3583/5?u=matthew.brett
 # and
 # https://jupyterhub.github.io/helm-chart/
-# datahub commit be8edd1 (2020-10-09) has 0.9.0-n335.hcc6c02d3
-JHUB_VERSION="0.10.0"
+JHUB_VERSION="0.10.3"
 # Region on which the cluster will run; see notes
 REGION=europe-west2
 # Zone within region; see notes
