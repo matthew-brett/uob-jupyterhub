@@ -13,9 +13,15 @@ source set_config.sh
 # https://cloud.google.com/kubernetes-engine/pricing
 # Surge values are default; recording here for completeness.
 # https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-upgrades
+# Some settings from
+# https://docs.datahub.berkeley.edu/en/latest/admins/cluster-config.html
 gcloud container clusters create \
   --machine-type $DEFAULT_MACHINE \
   --num-nodes ${DEFAULT_NODES} \
+  --min-nodes ${DEFAULT_NODES} \
+  --max-nodes ${MAX_DEFAULT_NODES:-$DEFAULT_NODES} \
+  --enable-autoscaling \
+  --image-type=ubuntu_containerd \
   --cluster-version latest \
   --node-locations $ZONE \
   --zone $ZONE \
@@ -24,7 +30,12 @@ gcloud container clusters create \
   --disk-type ${DEFAULT_DISK_TYPE:-pd-standard} \
   --max-surge-upgrade 1 \
   --max-unavailable-upgrade 0 \
+  --enable-ip-alias \
   $JHUB_CLUSTER
+
+# Consider other security options mentioned in page above:
+#    --enable-network-policy \
+#    --create-subnetwork="" \
 
 # Optional - create a special user cluster.
 if [ ${USER_POOL:-1} -ne 0 ]; then
@@ -32,6 +43,7 @@ if [ ${USER_POOL:-1} -ne 0 ]; then
     --machine-type $USER_MACHINE \
     --num-nodes ${USER_MIN_NODES:-0} \
     --enable-autoscaling \
+    --image-type=ubuntu_containerd \
     --min-nodes ${USER_MIN_NODES:-0} \
     --max-nodes ${USER_MAX_NODES:-23} \
     --node-labels hub.jupyter.org/node-purpose=user \
