@@ -1,39 +1,41 @@
 # NB secret values replaced with fake equivalents.
 # Please check before commit.
 
-# Main uobhub configuration.
+# Testing / demo config
+# vi: set ft=yaml sts=4 ts=4 sw=4 et:
+
 proxy:
   secretToken: a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f56789
   service:
-    loadBalancerIP: 35.189.82.198
-  https:
-    enabled: true
-    hosts:
-    - uobhub.org
-    letsencrypt:
-      contactEmail: yourname@somewhere.org
+    loadBalancerIP: 34.105.129.229
 
 singleuser:
+  # https://github.com/jupyterhub/zero-to-jupyterhub-k8s/issues/994
+  startTimeout: 3600
   image:
-    # Get the latest image tag at:
-    # https://hub.docker.com/r/jupyter/datascience-notebook/tags/
-    # Inspect the Dockerfile at:
-    # https://github.com/jupyter/docker-stacks/tree/master/datascience-notebook/Dockerfile
-    # The image below seems to be the result of `docker build` on
-    # https://github.com/berkeley-dsep-infra/datahub/tree/staging/deployments/datahub/images/default
-    # as of commit 258cdbc.
-    # name: gcr.io/ucb-datahub-2018/workshop-user-image
-    # tag: 3cd7a6b
-    # Custom image based on image above:
+    # Custom images via
     # https://github.com/matthew-brett/uob-docker
-    name: gcr.io/uob-jupyterhub/uobhub
-    tag: v002
+    # MAKE SURE JupyterHub ON THE IMAGE MATCHES
+    # THE VERSION IN THE HELM CHART.
+    name: eu.gcr.io/uob-jupyterhub/r-minimal-python
+    tag: f7b3039
+  defaultUrl: /rstudio
   cpu:
     limit: 4
     guarantee: 0.05
   memory:
-    limit: 2G
-    guarantee: 512M
+    limit: 4G
+    guarantee: 2.5G
+  profileList:
+  - display_name: R environment
+    description: R Studio environment
+    default: true
+  - display_name: Python for science
+    description: Base environment for scientific Python
+    kubespawner_override:
+      default_url: ''
+      mem_limit: 4G
+      mem_guarantee: 512M
   storage:
     type: static
     static:
@@ -50,36 +52,17 @@ singleuser:
         readOnly: true
 
 auth:
-  type: cilogon
-  cilogon:
-    # See: https://www.cilogon.org/oidc#h.p_PEQXL8QUjsQm
-    clientId: cilogon:/client_id/a0b1c2d3e4f56789a0b1c2d3e4f56789
-    clientSecret: a0b1c2d3e4f56789a0b1c2d3e4f-a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4f56789a0b1c2d3e4
-    callbackUrl: https://uobhub.org/hub/oauth_callback
+  type: dummy
   admin:
     users:
     - m.brett@bham.ac.uk
-
-hub:
-  extraConfig:
-    myAuthConfig: |
-      # Default ePPN username claim works for UoB; no need to force "email",
-      # but do this anyway for consistency.
-      c.CILogonOAuthenticator.username_claim = 'email'
-      c.CILogonOAuthenticator.idp = 'https://idp.bham.ac.uk/shibboleth'
-      # Stripping only works for a single entry in whitelist below.
-      c.CILogonOAuthenticator.strip_idp_domain = True
-      # Will soon be "allowed_idps" (from v0.12 of oauthenticator)
-      c.CILogonOAuthenticator.idp_whitelist = ['bham.ac.uk',
-                                               'student.bham.ac.uk']
-
 
 jupyterhub:
   hub:
     # See: https://jupyterhub.readthedocs.io/en/stable/api/app.html
     activity_resolution: 120  # Default 30.
-    hub_activity_interval: 600  # Default 300.
-    last_activity_interval: 300  # Default 300, 60 in z2jh helm chart.
+    hub_activity_interval: 1200  # Default 300.
+    last_activity_interval: 600  # Default 300, 60 in z2jh helm chart.
     init_spawners_timeout: 1  # Default 10
 
 # https://zero-to-jupyterhub.readthedocs.io/en/latest/administrator/optimization.html
@@ -88,3 +71,14 @@ scheduling:
     enabled: true
   podPriority:
     enabled: true
+  #userPlaceholder:
+  #  enabled: true
+  #  replicas: 110
+  userPods:
+    nodeAffinity:
+      matchNodePurpose: require
+
+cull:
+  enabled: true
+  timeout: 3600
+  every: 300
