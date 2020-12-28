@@ -16,6 +16,10 @@ if [ "${HELM_VER:0:3}" != "v3." ]; then
     return 1
 fi
 
+# Confirm stable repo
+# https://stackoverflow.com/questions/65407317/helm-init-failed-is-not-a-valid-chart-repository-or-cannot-be-reached-failed-to
+helm repo add stable https://charts.helm.sh/stable
+
 # Reinit jupyterhub helm chart repo
 helm repo add jupyterhub https://jupyterhub.github.io/helm-chart/
 helm repo update
