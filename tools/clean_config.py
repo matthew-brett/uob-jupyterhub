@@ -4,6 +4,9 @@
 Do a manual check after running this script.
 """
 
+from argparse import ArgumentParser, RawDescriptionHelpFormatter
+
+
 from itertools import cycle
 
 # pip install ruamel.yaml
@@ -52,15 +55,31 @@ def clean_d(d):
         d[k] = v
 
 
-yaml = YAML()
-with open('config.yaml', 'rt') as fobj:
-    config = yaml.load(fobj)
+def main():
+    parser = get_parser()
+    args = parser.parse_args()
+
+    yaml = YAML()
+    with open(args.config_yaml, 'rt') as fobj:
+        config = yaml.load(fobj)
+
+    clean_d(config)
+
+    with open(args.cleaned_yaml, 'wt') as fobj:
+        fobj.write('# NB secret values replaced with fake equivalents.\n'
+                   '# Please check before commit.\n\n')
+        yaml.dump(config, fobj)
 
 
-clean_d(config)
+def get_parser():
+    parser = ArgumentParser(description=__doc__,  # Usage from docstring
+                            formatter_class=RawDescriptionHelpFormatter)
+    parser.add_argument('config_yaml',
+                        help='Configuration file to clean')
+    parser.add_argument('-c', '--cleaned-yaml', default='config.yaml.cleaned',
+                        help='Output yaml file (default "config.yaml.cleaned"')
+    return parser
 
 
-with open('config.yaml.cleaned', 'wt') as fobj:
-    fobj.write('# NB secret values replaced with fake equivalents.\n'
-               '# Please check before commit.\n\n')
-    yaml.dump(config, fobj)
+if __name__ == '__main__':
+    main()
