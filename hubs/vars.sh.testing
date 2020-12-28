@@ -1,0 +1,7 @@
+# This file usually sourced from ../vars.sh
+# vi: set ft=bash sts=4 ts=4 sw=4 et:
+PROJECT_ID=uob-testing
+JHUB_CLUSTER=jhub-cluster-testing
+RELEASE=jhub-testing
+NAMESPACE=jhub-testing
+CLUSTER_DISK=jhub-testing-home-data

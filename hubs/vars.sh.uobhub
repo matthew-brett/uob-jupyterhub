@@ -1,0 +1,7 @@
+# vi: set ft=bash sts=4 ts=4 sw=4 et:
+# This file usually sourced from ../vars.sh
+PROJECT_ID=uob-jupyterhub
+JHUB_CLUSTER=jhub-cluster
+RELEASE=jhub
+NAMESPACE=jhub
+CLUSTER_DISK=jhub-home-data-ssd
