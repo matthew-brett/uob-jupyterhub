@@ -100,14 +100,39 @@ If you want to scale to more than a few users, you will need to:
   each new user will add 1G of required RAM.  This in turn means that fewer
   users will fit onto one node (VM), and you'll need more VMs, and therefore
   more money, and more implied CPUs (see below).
-* You may need to increase your CPU quotas on Google Cloud to allow many users
-  - try [this
-  link](https://console.cloud.google.com/iam-admin/quotas?pageState=(%22allQuotasTable%22:(%22f%22:%22%255B%257B_22k_22_3A_227%2520Day%2520Peak%2520Usage_22_2C_22t_22_3A1_2C_22v_22_3A_22%257B_5C_22v_5C_22_3A_5C_220_5C_22_2C_5C_22o_5C_22_3A_5C_22%253E_5C_22%257D_22_2C_22i_22_3A_22seven-day-peak-usage_22%257D_2C%257B_22k_22_3A_22_22_2C_22t_22_3A10_2C_22v_22_3A_22_5C_22CPUs_5C_22_22%257D%255D%22,%22s%22:%5B(%22i%22:%22seven-day-peak-usage%22,%22s%22:%221%22),(%22i%22:%22service%22,%22s%22:%220%22)%5D)))
-  to ask for modification of your quota.
+* You may very well need to increase your CPU and in-use IP address quotas on
+  Google Cloud to allow many users.  Exactly what quotas you need will depend
+  on the number and type of user nodes you use - see
+  <https://console.cloud.google.com/iam-admin/quotas>; use links there to ask
+  for changes to your quotas; check this link when your cluster is scaling to see if you are hitting GKE limits.
+
+### Scaling and regional clusters
+
+I hit repeated problems on scaling when using the [free Zonal cluster
+option](https://cloud.google.com/kubernetes-engine/pricing).  Specifically, my
+[cluster became unresponsive while
+scaling](https://discourse.jupyter.org/t/gke-autoscale-test-failure-cluster-reconciling)
+with messages: `The connection to the server <an-ip-address> was refused`.
+Switching to the \$0.10 per hour regional cluster option helped, presumably
+because regional clusters replicate the [Kubernetes control
+plane](https://kubernetes.io/docs/concepts/overview/components) across zones
+within the region.  The control plane provides the Kubernetes API server,
+meaning that you have some redundancy for the API server, and therefore,
+greater availability.
+
+Note that you can (should) specify that the *nodes* be restricted to one *zone*
+in the region, to reduce cost, and to make it easier to configure storage, but
+the control plane does not live on the nodes.  Restrict node zone locations
+with the `--node-locations` option to the cluster creation command.
+
+See the [Berkeley GKE
+summary](https://docs.datahub.berkeley.edu/en/latest/admins/cluster-config.html)
+for a little more detail.
 
 ## Storage
 
-Follow steps in `./storage.md` to create home directories / data disk, served by NFS.
+Follow steps in `./storage.md` to create home directories / data disk, served
+by NFS.
 
 ## Local Helm
 
