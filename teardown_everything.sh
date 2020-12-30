@@ -13,7 +13,7 @@ if [ "$key" = 'y' ]; then
 
     kubectl delete namespace $NAMESPACE
 
-    gcloud container clusters delete $JHUB_CLUSTER --zone $ZONE --quiet
+    ./teardown_gcloud_now.sh
 
     # Check teardown
     ./show_gcloud.sh

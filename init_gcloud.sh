@@ -23,8 +23,8 @@ gcloud container clusters create \
   --enable-autoscaling \
   --image-type=ubuntu_containerd \
   --cluster-version latest \
+  --region $REGION \
   --node-locations $ZONE \
-  --zone $ZONE \
   --project ${PROJECT_ID} \
   --disk-size ${DEFAULT_DISK_SIZE:-30Gi} \
   --disk-type ${DEFAULT_DISK_TYPE:-pd-standard} \
@@ -48,8 +48,8 @@ if [ ${USER_POOL:-1} -ne 0 ]; then
     --max-nodes ${USER_MAX_NODES:-23} \
     --node-labels hub.jupyter.org/node-purpose=user \
     --node-taints hub.jupyter.org_dedicated=user:NoSchedule \
+    --region $REGION \
     --node-locations $ZONE \
-    --zone $ZONE \
     --project ${PROJECT_ID} \
     --disk-size ${USER_DISK_SIZE:-30Gi} \
     --disk-type ${USER_DISK_TYPE:-pd-standard} \
@@ -62,7 +62,7 @@ kubectl create clusterrolebinding cluster-admin-binding \
   --user=$EMAIL
 
 # Set Kubernetes credentials to this cluster
-gcloud container clusters get-credentials $JHUB_CLUSTER --zone $ZONE
+gcloud container clusters get-credentials $JHUB_CLUSTER --region $REGION
 
 echo Next run
 echo source setup_helm.sh
