@@ -7,3 +7,5 @@ source vars.sh.common
 source hubs/vars.sh.${HUB_NAME}
 # Config; this one will often have secrets.
 CONFIG_YAML=jh-secrets/config.yaml.${HUB_NAME}
+# 12GB default machine.
+DEFAULT_MACHINE=n1-custom-2-12288
