@@ -6,4 +6,4 @@ RELEASE=jhub-testing
 NAMESPACE=jhub-testing
 CLUSTER_DISK=jhub-testing-home-data
 # Maximum number of nodes in default cluster.
-MAX_DEFAULT_NODES=4
+MAX_DEFAULT_NODES=2
