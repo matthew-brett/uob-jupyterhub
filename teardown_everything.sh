@@ -7,8 +7,10 @@
 
 echo "Deleting $RELEASE on $JHUB_CLUSTER".
 read -n1 -r -p "Press y to continue, any other key to cancel." key
+echo
 
 if [ "$key" = 'y' ]; then
+    echo "Deleting $JHUB_CLUSTER"
     helm delete $RELEASE
 
     kubectl delete namespace $NAMESPACE
