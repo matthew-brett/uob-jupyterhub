@@ -35,6 +35,10 @@ JHUB_VERSION="0.10.3"
 REGION=europe-west2
 # Zone within region; see notes
 ZONE=europe-west2-b
+# Cluster specification.  Can be regional or zonal.  Regional about $70 pcm
+# more expensive, less likely to fall over.
+# CLUSTER_SPEC="--region ${REGION}"
+CLUSTER_SPEC="--zone ${ZONE}"
 # Admin email.
 EMAIL=matthew.brett@gmail.com
 # Dataset to which billing information will be written
