@@ -314,3 +314,8 @@ You can then `sudo apt install rsync` and something like:
 cd /mnt/disks
 sudo rsync -aAXv old-data/ data/
 ```
+
+## Deleting disks
+
+```
+gcloud compute disks delete <disk_name>
