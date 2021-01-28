@@ -30,7 +30,9 @@ USER_DISK_TYPE=pd-standard
 # https://discourse.jupyter.org/t/trouble-getting-https-letsencrypt-working-with-0-9-0-beta-4/3583/5?u=matthew.brett
 # and
 # https://jupyterhub.github.io/helm-chart/
-JHUB_VERSION="0.10.3"
+# NNB - must match corresponding jupyterhub etc specs in docker image.
+# See config.yaml
+JHUB_VERSION="0.11.1"
 # Region on which the cluster will run; see notes
 REGION=europe-west2
 # Zone within region; see notes
