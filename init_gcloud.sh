@@ -21,6 +21,7 @@ gcloud container clusters create \
   --min-nodes ${DEFAULT_NODES} \
   --max-nodes ${MAX_DEFAULT_NODES:-$DEFAULT_NODES} \
   --enable-autoscaling \
+  --no-enable-autoupgrade \
   --image-type=ubuntu_containerd \
   --cluster-version latest \
   ${CLUSTER_SPEC} \
@@ -43,6 +44,7 @@ if [ ${USER_POOL:-1} -ne 0 ]; then
     --machine-type $USER_MACHINE \
     --num-nodes ${USER_MIN_NODES:-0} \
     --enable-autoscaling \
+    --no-enable-autoupgrade \
     --image-type=ubuntu_containerd \
     --min-nodes ${USER_MIN_NODES:-0} \
     --max-nodes ${USER_MAX_NODES:-23} \
