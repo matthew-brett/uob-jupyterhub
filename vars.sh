@@ -1,5 +1,5 @@
 # Source this file.
-HUB_NAME=testing
+HUB_NAME=uobhub
 echo "Configuration for hub ${HUB_NAME}"
 # Common config, overwritten by specific config below.
 source vars.sh.common
