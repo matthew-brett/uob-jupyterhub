@@ -12,5 +12,5 @@ echo May need "gcloud auth login"
 # Reset zonal cluster
 # https://stackoverflow.com/questions/36650642/did-you-specify-the-right-host-or-port-error-on-kubernetes
 gcloud container clusters get-credentials $JHUB_CLUSTER \
-    --zone $ZONE \
+    ${CLUSTER_SPEC} \
     --project ${PROJECT_ID}
